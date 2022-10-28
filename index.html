@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Finder</title>
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="search-form">
+            <form method="post" action="javascript:;" class="searchBar show">
+                <input type="text" id="search-bar" placeholder="Search...">
+                <button type="submit" id="submit-ticker">Search</button>
+            </form>
+            <h2 id="errorMsg"></h2>
+        </div>
+        <div id="timeframe-buttons" >
+            <button id="intraday-btn" class="timeframeButtons" value="TIME_SERIES_INTRADAY">Intraday</button>
+            <button id="daily-btn" class="timeframeButtons" value="TIME_SERIES_DAILY">Daily</button>
+            <button id="weekly-btn" class="timeframeButtons" value="TIME_SERIES_WEEKLY">Weekly</button>
+            <button id="monthly-btn" class="timeframeButtons" value="TIME_SERIES_MONTHLY">Monthly</button>
+        </div>
+        <div id="stock-values">
+        </div>
+    </div>
+</body>
+
+</html>
