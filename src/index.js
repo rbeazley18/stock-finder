@@ -1,9 +1,4 @@
-// require('dotenv').config()
-// console.log(process.env)
-
-// console.log(process.env.API_KEY)
-
-const API_KEY = "JCXH7RL2H20I2NAG"
+import './style.css';
 
 const stockValues = document.getElementById("stock-values");
 
@@ -59,8 +54,8 @@ const styleButtons = (buttonID, btnColor) => {
 // factory function to create data point variables for stocks (high, low, etc.)
 const stockDataFactory = (type, attributes, content) => {
     const num = document.createElement(type);
-    for (key in attributes) {
-        num.setAttribute(key, attributes[key])
+    for (Object.key in attributes) {
+        num.setAttribute(Object.key, attributes[Object.key])
     }
     num.textContent = content;
     return num;
@@ -77,7 +72,7 @@ async function getTimeSeriesIntraday() {
     stockValues.innerHTML = "";
 
     try {
-        const endpoint = `https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&interval=5min&apikey=${API_KEY}`
+        const endpoint = `https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&interval=5min&apikey=${process.env.API_KEY}`
         const response = await fetch(endpoint, { mode: 'cors' });
         const stockData = await response.json();
         console.log(stockData)
@@ -111,7 +106,7 @@ async function getTimeSeriesDaily() {
     stockValues.innerHTML = "";
 
     try {
-        const endpoint = `https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&apikey=${API_KEY}`
+        const endpoint = `https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&apikey=${process.env.API_KEY}`
         const response = await fetch(endpoint, { mode: 'cors' });
         const stockData = await response.json();
         console.log(stockData)
@@ -145,7 +140,7 @@ async function getTimeSeriesWeekly() {
     stockValues.innerHTML = "";
 
     try {
-        const response = await fetch(`https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&apikey=${API_KEY}`, { mode: 'cors' });
+        const response = await fetch(`https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
         const stockData = await response.json();
         console.log(stockData)
         errorMsg.textContent = "";
