@@ -1,0 +1,30 @@
+.searchBar {
+    display: none;
+}
+
+.searchBar.show {
+    display: flex;
+    justify-content: center;
+}
+
+#timeframe-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+
+.high::before {
+    content: "High: ";
+}
+
+.low::before {
+    content: "Low: ";
+}
+
+.open::before {
+    content: "Open: ";
+}
+
+.close::before {
+    content: "Close: ";
+}
