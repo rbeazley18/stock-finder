@@ -1,18 +1,32 @@
 import './style.css';
 
-const stockValues = document.getElementById("stock-values");
+function searchInitiated() {
+    const search = document.getElementById("submit-ticker");
+    search.addEventListener("click", firstSearch)
+}
 
-const searchBtn = document.getElementById("submit-ticker");
-searchBtn.addEventListener("click", getTimeSeriesDaily);
+function createTimeSeriesButtons() {
+    const timeframeButtons = document.getElementById("timeframe-buttons")
+    timeframeButtons.innerHTML = "";
 
-const intradayBtn = document.getElementById("intraday-btn");
-intradayBtn.addEventListener("click", getTimeSeriesIntraday);
+    const intradayBtn = stockComponentFactory('button', { id: "intraday-btn", class: "timeframeButtons" }, "Intraday");
+    intradayBtn.addEventListener("click", getTimeSeriesIntraday);
 
-const dailyBtn = document.getElementById("daily-btn");
-dailyBtn.addEventListener("click", getTimeSeriesDaily);
+    const dailyBtn = stockComponentFactory('button', { id: "daily-btn", class: "timeframeButtons" }, "Daily");
+    dailyBtn.addEventListener("click", getTimeSeriesDaily);
 
-const weeklyBtn = document.getElementById("weekly-btn");
-weeklyBtn.addEventListener("click", getTimeSeriesWeekly);
+    const weeklyBtn = stockComponentFactory('button', { id: "weekly-btn", class: "timeframeButtons" }, "Weekly");
+    weeklyBtn.addEventListener("click", getTimeSeriesWeekly);
+
+    timeframeButtons.append(intradayBtn, dailyBtn, weeklyBtn);
+}
+
+// window.firstSearch = firstSearch;
+
+function firstSearch() {
+    createTimeSeriesButtons();
+    getTimeSeriesDaily();
+}
 
 
 
@@ -21,14 +35,14 @@ function getUserDate() {
     let today = new Date().toISOString().slice(0, 10);
     return today;
 }
-console.log(getUserDate())
+// console.log(getUserDate())
 
 function getESTDateAndTime() {
     var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
     var newyorkISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 19).replace("T", " ");
     return newyorkISOTime;
 }
-console.log(getESTDateAndTime())
+// console.log(getESTDateAndTime())
 
 
 function getSearchValue() {
@@ -52,27 +66,27 @@ const styleButtons = (buttonID, btnColor) => {
 }
 
 // factory function to create data point variables for stocks (high, low, etc.)
-const stockDataFactory = (type, attributes, content) => {
-    const num = document.createElement(type);
+const stockComponentFactory = (type, attributes, content) => {
+    const component = document.createElement(type);
     for (Object.key in attributes) {
-        num.setAttribute(Object.key, attributes[Object.key])
+        component.setAttribute(Object.key, attributes[Object.key])
     }
-    num.textContent = content;
-    return num;
+    component.textContent = content;
+    return component;
 }
 
 // API call to get intraday stock data
 async function getTimeSeriesIntraday() {
-    const timeSeries = intradayBtn.value;
     revertTimeButtons();
     styleButtons("intraday-btn", "red");
     const searchValue = getSearchValue();
     console.log(searchValue);
     const errorMsg = document.getElementById("errorMsg");
+    const stockValues = document.getElementById("stock-values");
     stockValues.innerHTML = "";
 
     try {
-        const endpoint = `https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&interval=5min&apikey=${process.env.API_KEY}`
+        const endpoint = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${searchValue}&interval=5min&apikey=${process.env.API_KEY}`
         const response = await fetch(endpoint, { mode: 'cors' });
         const stockData = await response.json();
         console.log(stockData)
@@ -83,10 +97,10 @@ async function getTimeSeriesIntraday() {
         const highValue = stockData["Time Series (5min)"][lastRefreshedDate]["2. high"];
         const lowValue = stockData["Time Series (5min)"][lastRefreshedDate]["3. low"];
 
-        const high = stockDataFactory('div', { id: "intraday-high", class: "high" }, highValue);
-        const low = stockDataFactory('div', { id: "intraday-low", class: "low" }, lowValue);
-        const open = stockDataFactory('div', { id: "intraday-open", class: "open" }, openValue);
-        const close = stockDataFactory('div', { id: "intraday-close", class: "close" }, closeValue);
+        const high = stockComponentFactory('div', { id: "intraday-high", class: "high" }, highValue);
+        const low = stockComponentFactory('div', { id: "intraday-low", class: "low" }, lowValue);
+        const open = stockComponentFactory('div', { id: "intraday-open", class: "open" }, openValue);
+        const close = stockComponentFactory('div', { id: "intraday-close", class: "close" }, closeValue);
         stockValues.append(high, low, open, close);
     } catch (error) {
         console.log(error);
@@ -97,16 +111,16 @@ async function getTimeSeriesIntraday() {
 
 // API call to get daily stock data
 async function getTimeSeriesDaily() {
-    const timeSeries = dailyBtn.value;
     revertTimeButtons();
     styleButtons("daily-btn", "red");
     const searchValue = getSearchValue();
     console.log(searchValue);
     const errorMsg = document.getElementById("errorMsg");
+    const stockValues = document.getElementById("stock-values");
     stockValues.innerHTML = "";
 
     try {
-        const endpoint = `https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&apikey=${process.env.API_KEY}`
+        const endpoint = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${searchValue}&apikey=${process.env.API_KEY}`
         const response = await fetch(endpoint, { mode: 'cors' });
         const stockData = await response.json();
         console.log(stockData)
@@ -117,10 +131,10 @@ async function getTimeSeriesDaily() {
         const highValue = stockData["Time Series (Daily)"][lastRefreshedDate]["2. high"];
         const lowValue = stockData["Time Series (Daily)"][lastRefreshedDate]["3. low"];
 
-        const high = stockDataFactory('div', { id: "daily-high", class: "high" }, highValue);
-        const low = stockDataFactory('div', { id: "daily-low", class: "low" }, lowValue);
-        const open = stockDataFactory('div', { id: "daily-open", class: "open" }, openValue);
-        const close = stockDataFactory('div', { id: "daily-close", class: "close" }, closeValue);
+        const high = stockComponentFactory('div', { id: "daily-high", class: "high" }, highValue);
+        const low = stockComponentFactory('div', { id: "daily-low", class: "low" }, lowValue);
+        const open = stockComponentFactory('div', { id: "daily-open", class: "open" }, openValue);
+        const close = stockComponentFactory('div', { id: "daily-close", class: "close" }, closeValue);
         stockValues.append(high, low, open, close);
     } catch (error) {
         console.log(error);
@@ -131,16 +145,16 @@ async function getTimeSeriesDaily() {
 
 // API call to get weekly stock data
 async function getTimeSeriesWeekly() {
-    const timeSeries = weeklyBtn.value;
     revertTimeButtons();
     styleButtons("weekly-btn", "red");
     const searchValue = getSearchValue();
     console.log(searchValue);
     const errorMsg = document.getElementById("errorMsg");
+    const stockValues = document.getElementById("stock-values");
     stockValues.innerHTML = "";
 
     try {
-        const response = await fetch(`https://www.alphavantage.co/query?function=${timeSeries}&symbol=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
+        const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
         const stockData = await response.json();
         console.log(stockData)
         errorMsg.textContent = "";
@@ -150,10 +164,10 @@ async function getTimeSeriesWeekly() {
         const highValue = stockData["Weekly Time Series"][lastRefreshedDate]["2. high"];
         const lowValue = stockData["Weekly Time Series"][lastRefreshedDate]["3. low"];
 
-        const high = stockDataFactory('div', { id: "weekly-high", class: "high" }, highValue);
-        const low = stockDataFactory('div', { id: "weekly-low", class: "low" }, lowValue);
-        const open = stockDataFactory('div', { id: "weekly-open", class: "open" }, openValue);
-        const close = stockDataFactory('div', { id: "weekly-close", class: "close" }, closeValue);
+        const high = stockComponentFactory('div', { id: "weekly-high", class: "high" }, highValue);
+        const low = stockComponentFactory('div', { id: "weekly-low", class: "low" }, lowValue);
+        const open = stockComponentFactory('div', { id: "weekly-open", class: "open" }, openValue);
+        const close = stockComponentFactory('div', { id: "weekly-close", class: "close" }, closeValue);
         stockValues.append(high, low, open, close);
     } catch (error) {
         console.log(error);
@@ -163,5 +177,5 @@ async function getTimeSeriesWeekly() {
 }
 
 
-
+searchInitiated();
 
