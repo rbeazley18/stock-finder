@@ -1,17 +1,71 @@
-.searchBar {
+:root {
+    --main-bg-color: rgb(100, 99, 99);
+
+}
+
+body {
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+.stockValues {
     display: none;
+    background-color: rgb(33, 43, 17);
+    width: fit-content;
+    border-radius: 10px;
+    text-align: left;
+    color: rgb(255, 255, 255);
+    padding: 20px;
 }
 
-.searchBar.show {
+.stockValues.show {
+    display: block;
+}
+
+.companyInfo {
+    display: none;
+    background-color: rgb(0, 0, 255);
+    font-size: 20px;
+    border-radius: 10px;
+    color: white;
+    padding: 20px;
+}
+
+.companyInfo.show {
+    display: block;
+}
+
+.searchBarForm {
+    display: flex;
+    justify-content: center;
+    
+    
+}
+
+.searchBar {
+    height: 30px;
+    width: 70%;
+}
+
+.searchButton {
+    background-color: rgb(7, 43, 160);
+    color: white;
+    width: fit-content;
+    font-size: 16px;
+    
+}
+
+.timeframeButtons {
     display: flex;
     justify-content: center;
 }
 
-#timeframe-buttons {
-    display: flex;
-    justify-content: center;
+.lastRefreshed::before {
+    content: "Last Refreshed: ";
 }
-
 
 .high::before {
     content: "High: ";
@@ -27,4 +81,44 @@
 
 .close::before {
     content: "Close: ";
+}
+
+ul {
+    list-style: none;
+}
+
+.exchange::before {
+    content: "Exchange: ";
+}
+
+.country::before {
+    content: "Country: ";
+}
+
+.sector::before {
+    content: "Sector: ";
+}
+
+.industry::before {
+    content: "Industry: ";
+}
+
+.peRatio::before {
+    content: "PE Ratio: ";
+}
+
+.dividendYield::before {
+    content: "Dividend Yield: ";
+}
+
+.fiftyTwoWeekHigh::before {
+    content: "52 Week High: ";
+}
+
+.fiftyTwoWeekLow::before {
+    content: "52 Week Low: ";
+}
+
+.earningsPerShare::before {
+    content: "EPS: ";
 }

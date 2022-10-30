@@ -12,16 +12,18 @@
 <body>
     <div id="container">
         <div id="search-form">
-            <form method="post" action="javascript:;" class="searchBar show">
-                <input type="text" id="search-bar" placeholder="Search...">
-                <button type="submit" id="submit-ticker">Search</button>
+            <form method="post" action="javascript:;" class="searchBarForm">
+                <input type="text" id="search-bar" class="searchBar" placeholder="Search...">
+                <button type="submit" id="submit-ticker" class="searchButton">Search</button>
             </form>
-            <h2 id="errorMsg"></h2>
         </div>
-        <div id="timeframe-buttons">
-        </div>
-        <div id="stock-values">
-        </div>
+        <h2 id="error-message"></h2>
+        <ul id="timeframe-buttons" class="timeframeButtons">
+        </ul>
+        <ul id="stock-values" class="stockValues">
+        </ul>
+        <ul id="company-info" class="companyInfo">
+        </ul>
     </div>
 </body>
 
