@@ -9,23 +9,22 @@
     <script src="main.js" defer></script>
 </head>
 
-<body>
-    <div id="container">
-        <div id="search-form">
-            <form method="post" action="javascript:;" class="searchBar show">
-                <input type="text" id="search-bar" placeholder="Search...">
-                <button type="submit" id="submit-ticker">Search</button>
+<body class="">
+    <div id="container" class="container">
+        <h1>Stock Finder</h1>
+        <div id="search-form"  class="searchBarForm">
+            <form method="post" action="javascript:;">
+                <input type="text" id="search-bar" class="searchBar" placeholder="Search...">
+                <button type="submit" id="submit-ticker" class="searchButton">Search</button>
             </form>
-            <h2 id="errorMsg"></h2>
         </div>
-        <div id="timeframe-buttons" >
-            <button id="intraday-btn" class="timeframeButtons" value="TIME_SERIES_INTRADAY">Intraday</button>
-            <button id="daily-btn" class="timeframeButtons" value="TIME_SERIES_DAILY">Daily</button>
-            <button id="weekly-btn" class="timeframeButtons" value="TIME_SERIES_WEEKLY">Weekly</button>
-            <button id="monthly-btn" class="timeframeButtons" value="TIME_SERIES_MONTHLY">Monthly</button>
-        </div>
-        <div id="stock-values">
-        </div>
+        <h2 id="error-message"></h2>
+        <ul id="timeframe-buttons" class="timeframeButtons">
+        </ul>
+        <ul id="stock-values" class="stockValues">
+        </ul>
+        <ul id="company-info" class="companyInfo">
+        </ul>
     </div>
 </body>
 
