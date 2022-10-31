@@ -7,8 +7,69 @@ body {
     margin: 0;
 }
 
+.container {
+    border: 5px solid black;
+}
+
+h1 {
+    text-align: center;
+    font-size: 80px;
+}
+
 button {
+    background-color: blueviolet;
+    color: white;
     cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    align-items: start;
+    text-align: center
+}
+
+.searchButton {
+    position: relative;
+    margin-left: -4px;
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+    width: 80px;
+    height: 46px;
+}
+
+
+
+button:hover {
+    background-color: white;
+    color: blueviolet;
+    border-style: solid;
+    border-width: 2px;
+    border-color: blueviolet;
+    
+}
+
+.searchBarForm {
+    text-align: center;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    
+}
+
+.searchBar {
+    position: relative;
+    height: 40px;
+    font-size: 18px;
+    max-width: 600px;
+    width: 50%;
+    margin: 0;
+    border-style: solid;
+    border-width: 2px;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
+} 
+
+.searchBar:focus {
+    outline: none;
 }
 
 .stockValues {
@@ -36,26 +97,6 @@ button {
 
 .companyInfo.show {
     display: block;
-}
-
-.searchBarForm {
-    display: flex;
-    justify-content: center;
-    
-    
-}
-
-.searchBar {
-    height: 30px;
-    width: 70%;
-}
-
-.searchButton {
-    background-color: rgb(7, 43, 160);
-    color: white;
-    width: fit-content;
-    font-size: 16px;
-    
 }
 
 .timeframeButtons {
