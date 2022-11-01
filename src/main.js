@@ -3,21 +3,6 @@ export function getSearchValue() {
     return value;
 }
 
-// resets timeframe buttons styling
-export function revertTimeButtons() {
-    const buttons = document.querySelectorAll(".timeframeButtons");
-    buttons.forEach((button) => {
-        button.style.color = "black";
-    });
-    return buttons;
-}
-
-// factory function to style timeframe buttons
-export const styleButtons = (buttonID, btnColor) => {
-    const timeBtn = document.getElementById(buttonID);
-    timeBtn.style.color = btnColor;
-}
-
 // factory function to create data point variables for stocks (high, low, etc.)
 export const stockComponentFactory = (type, attributes, content) => {
     const component = document.createElement(type);
@@ -28,7 +13,7 @@ export const stockComponentFactory = (type, attributes, content) => {
     return component;
 }
 
-export function startStockValues() {
+export function showStockValues() {
     const stockValues = document.getElementById("stock-values")
     stockValues.classList.add("show");
     return stockValues;
@@ -41,7 +26,7 @@ export function hideStockValues() {
     return stockValues;
 }
 
-export function startCompanyInfo() {
+export function showCompanyInfo() {
     const companyInfo = document.getElementById("company-info")
     companyInfo.classList.add("show");
     return companyInfo;
@@ -54,7 +39,7 @@ export function hideCompanyInfo() {
     return companyInfo;
 }
 
-export function createErrorMessage(error) {
+export function createErrorMessage() {
     const errorMsg = document.getElementById("error-message");
     errorMsg.textContent = "No Data Found";
     return errorMsg;
@@ -65,3 +50,34 @@ export function clearErrorMessage() {
     errorMsg.innerHTML = "";
     return errorMsg;
 }
+
+export function percentChange(open, close) {
+    const difference = close - open;
+    if (difference < 0) {
+        const percent = (difference / open) * 100;
+        const fixedPercent = percent.toFixed(2);
+        // percentNegative();
+        return `${fixedPercent}%`;
+    } else {
+        const percent = (difference / open) * 100;
+        const fixedPercent = percent.toFixed(2);
+        // percentPositive();
+        return `${fixedPercent}%`;
+    };
+}
+
+// function percentNegative() {
+//     const percentLi = document.getElementById("percent-change");
+//     percentLi.classList.remove("positive")
+//     percentLi.classList.add("negative");
+
+//     return percentLi;
+// }
+
+// function percentPositive() {
+//     const percentLi = document.getElementById("percent-change");
+//     percentLi.classList.remove("negative")
+//     percentLi.classList.add("positive");
+
+//     return percentLi;
+// }

@@ -13,7 +13,13 @@ function firstSearch() {
     getCompanyOverview();
 }
 
+
+// FOR PRODUCTION
 searchInitiated();
+
+
+// FOR DEVELOPMENT ONLY
+// firstSearch();
 
 
 

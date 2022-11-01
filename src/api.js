@@ -1,12 +1,13 @@
-import { revertTimeButtons, stockComponentFactory, styleButtons, getSearchValue, startStockValues, hideStockValues, startCompanyInfo, hideCompanyInfo, createErrorMessage, clearErrorMessage } from "./main"
+import { stockComponentFactory, getSearchValue, showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, createErrorMessage, clearErrorMessage, percentChange } from "./main"
 import { convertDateToString } from "./date";
+import { revertTimeButtons, styleButtons } from "./buttons";
 
 // API call to get intraday stock data
 export async function getTimeSeriesIntraday() {
     clearErrorMessage();
     hideStockValues();
     revertTimeButtons();
-    styleButtons("intraday-btn", "red");
+    styleButtons("intraday-btn");
     const searchValue = getSearchValue();
     console.log(searchValue);
     
@@ -23,8 +24,13 @@ export async function getTimeSeriesIntraday() {
         const low = stockComponentFactory('li', { id: "intraday-low", class: "low" }, stockData["Time Series (5min)"][lastRefreshedDate]["3. low"]);
         const open = stockComponentFactory('li', { id: "intraday-open", class: "open" }, stockData["Time Series (5min)"][lastRefreshedDate]["1. open"]);
         const close = stockComponentFactory('li', { id: "intraday-close", class: "close" }, stockData["Time Series (5min)"][lastRefreshedDate]["4. close"]);
-        const stockValues = startStockValues();
-        stockValues.append(lastRefreshed, high, low, open, close);
+
+        const openInt = stockData["Time Series (5min)"][lastRefreshedDate]["1. open"];
+        const closeInt = stockData["Time Series (5min)"][lastRefreshedDate]["4. close"];
+        const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
+
+        const stockValues = showStockValues();
+        stockValues.append(high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
         createErrorMessage();
@@ -37,7 +43,7 @@ export async function getTimeSeriesDaily() {
     clearErrorMessage();
     hideStockValues();
     revertTimeButtons();
-    styleButtons("daily-btn", "red");
+    styleButtons("daily-btn");
     const searchValue = getSearchValue();
     console.log(searchValue);
  
@@ -54,8 +60,13 @@ export async function getTimeSeriesDaily() {
         const low = stockComponentFactory('li', { id: "daily-low", class: "low" }, stockData["Time Series (Daily)"][lastRefreshedDate]["3. low"]);
         const open = stockComponentFactory('li', { id: "daily-open", class: "open" }, stockData["Time Series (Daily)"][lastRefreshedDate]["1. open"]);
         const close = stockComponentFactory('li', { id: "daily-close", class: "close" }, stockData["Time Series (Daily)"][lastRefreshedDate]["4. close"]);
-        const stockValues = startStockValues();
-        stockValues.append(lastRefreshed, high, low, open, close);
+
+        const openInt = stockData["Time Series (Daily)"][lastRefreshedDate]["1. open"];
+        const closeInt = stockData["Time Series (Daily)"][lastRefreshedDate]["4. close"];
+        const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
+        
+        const stockValues = showStockValues();
+        stockValues.append(high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         hideStockValues();
         console.log(error);
@@ -69,7 +80,7 @@ export async function getTimeSeriesWeekly() {
     clearErrorMessage();
     hideStockValues();
     revertTimeButtons();
-    styleButtons("weekly-btn", "red");
+    styleButtons("weekly-btn");
     const searchValue = getSearchValue();
     console.log(searchValue);
     
@@ -88,8 +99,14 @@ export async function getTimeSeriesWeekly() {
         const open = stockComponentFactory('li', { id: "weekly-open", class: "open" }, stockData["Weekly Time Series"][lastRefreshedDate]["1. open"]);
 
         const close = stockComponentFactory('li', { id: "weekly-close", class: "close" }, stockData["Weekly Time Series"][lastRefreshedDate]["4. close"]);
-        const stockValues = startStockValues();
-        stockValues.append(lastRefreshed, high, low, open, close);
+
+        const openInt = stockData["Weekly Time Series"][lastRefreshedDate]["1. open"];
+        const closeInt = stockData["Weekly Time Series"][lastRefreshedDate]["4. close"];
+        const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
+        
+
+        const stockValues = showStockValues();
+        stockValues.append(high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
         createErrorMessage();
@@ -102,7 +119,7 @@ export async function getTimeSeriesMonthly() {
     clearErrorMessage();
     hideStockValues();
     revertTimeButtons();
-    styleButtons("monthly-btn", "red");
+    styleButtons("monthly-btn");
     const searchValue = getSearchValue();
     console.log(searchValue);
     
@@ -121,8 +138,14 @@ export async function getTimeSeriesMonthly() {
         const open = stockComponentFactory('li', { id: "monthly-open", class: "open" }, stockData["Monthly Time Series"][lastRefreshedDate]["1. open"]);
 
         const close = stockComponentFactory('li', { id: "monthly-close", class: "close" }, stockData["Monthly Time Series"][lastRefreshedDate]["4. close"]);
-        const stockValues = startStockValues();
-        stockValues.append(lastRefreshed, high, low, open, close);
+
+        const openInt = stockData["Monthly Time Series"][lastRefreshedDate]["1. open"];
+        const closeInt = stockData["Monthly Time Series"][lastRefreshedDate]["4. close"];
+        const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
+        
+
+        const stockValues = showStockValues();
+        stockValues.append(high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
         createErrorMessage();
@@ -169,7 +192,7 @@ export async function getCompanyOverview() {
 
         // const allData = getKeyAndValue(stockData);
         // console.log(allData);
-        const companyInfo = startCompanyInfo();
+        const companyInfo = showCompanyInfo();
         companyInfo.append(symbol, assetType, name, description, exchange, country, sector, industry, peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
     } catch (error) {
         console.log(error);
