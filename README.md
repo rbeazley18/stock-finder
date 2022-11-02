@@ -1,0 +1,2 @@
+# stock-finder
+This application is built with HTML, CSS, and Javascript. It allows the user to search any stock ticker and retrieve information from the AlphaVantage API. This project is still in progress, and I plan on adding more API calls to retrieve relevant news articles and other hepful information. The application is currently limited to five API calls per minute, so I hope to add local or session storage to reduce the number of data requests necessary.
