@@ -139,13 +139,15 @@ export async function getTimeSeriesMonthly() {
 
         const close = stockComponentFactory('li', { id: "monthly-close", class: "close" }, stockData["Monthly Time Series"][lastRefreshedDate]["4. close"]);
 
+        const title = stockComponentFactory('h3', { id: "data-title", class: "dataTitle" }, "Monthly");
+
         const openInt = stockData["Monthly Time Series"][lastRefreshedDate]["1. open"];
         const closeInt = stockData["Monthly Time Series"][lastRefreshedDate]["4. close"];
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
         
 
         const stockValues = showStockValues();
-        stockValues.append(high, low, open, close, percent, lastRefreshed);
+        stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
         createErrorMessage();
@@ -168,7 +170,7 @@ export async function getCompanyOverview() {
 
         const assetType = stockComponentFactory('li', { id: "asset-type", class: "assetType" }, stockData["AssetType"]);
 
-        const name = stockComponentFactory('li', { id: "name", class: "name" }, stockData["Name"]);
+        const name = stockComponentFactory('li', { id: "name", class: "companyName" }, stockData["Name"]);
 
         const description = stockComponentFactory('li', { id: "description", class: "description" }, stockData["Description"]);
 
@@ -193,7 +195,7 @@ export async function getCompanyOverview() {
         // const allData = getKeyAndValue(stockData);
         // console.log(allData);
         const companyInfo = showCompanyInfo();
-        companyInfo.append(symbol, assetType, name, description, exchange, country, sector, industry, peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
+        companyInfo.append(symbol, name, assetType, exchange, country, sector, industry, description,  peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
     } catch (error) {
         console.log(error);
         createErrorMessage();
