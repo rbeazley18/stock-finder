@@ -8,19 +8,20 @@
     <title>Stock Finder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300&display=swap" rel="stylesheet">
-    <script src="main.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400&display=swap" rel="stylesheet">
+    <script defer src="main.js"></script>
 </head>
 
 <body class="">
     <div id="container" class="container">
         <h1>Stock Finder</h1>
-        <div id="search-form" class="searchBarForm">
-            <form method="post" action="javascript:;">
+        <form method="post" autocomplete="off" action="javascript:;" class="searchBarForm">
+            <div class="searchDiv">
                 <input type="text" id="search-bar" class="searchBar" placeholder="Search...">
                 <button type="submit" id="submit-ticker" class="searchButton">Search</button>
-            </form>
-        </div>
+            </div>
+            <div id="search-dropdown" class="searchDropdown"></div>
+        </form>
         <h2 id="error-message" class="errorMessage"></h2>
         <div id="timeframe-buttons" class="timeButtonsDiv">
         </div>
@@ -30,6 +31,7 @@
             <ul id="stock-values" class="stockValues">
             </ul>
         </div>
+        <div id="company-news" class="companyNews"></div>
     </div>
 </body>
 

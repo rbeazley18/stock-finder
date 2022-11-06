@@ -1,20 +1,32 @@
 import { createTimeSeriesButtons } from './buttons';
-import { getTimeSeriesDaily, getCompanyOverview } from './api';
+import { getTimeSeriesDaily, getCompanyOverview, getCompanyNews, getSearchAutoComplete } from './api';
 import './style.css';
+import { getSearchValue, removeSearchChildren, clearSearchText } from './main';
 
 function searchInitiated() {
-    const search = document.getElementById("submit-ticker");
-    search.addEventListener("click", firstSearch);
+    const searchSubmit = document.getElementById("submit-ticker");
+    searchSubmit.addEventListener("click", firstSearch);
 }
 
-function firstSearch() {
-    createTimeSeriesButtons();
-    getTimeSeriesDaily();
-    getCompanyOverview();
+function showSearchOptions() {
+    const searchBar = document.getElementById("search-bar");
+    searchBar.addEventListener("keyup", getSearchAutoComplete);
+}
+
+
+export function firstSearch() {
+    const search = getSearchValue();
+    removeSearchChildren();
+    clearSearchText();
+    createTimeSeriesButtons(search);
+    getTimeSeriesDaily(search);
+    getCompanyOverview(search);
+    getCompanyNews(search)
 }
 
 
 // FOR PRODUCTION
+showSearchOptions();
 searchInitiated();
 
 

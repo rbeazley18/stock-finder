@@ -10,13 +10,16 @@
     --main-bg-color: rgb(100, 99, 99);
     --main-btn-color: blueviolet;
     --main-btn-bg-color: white;
+    --main-font: 'Nunito Sans', sans-serif;
+    --primary-color: blueviolet;
 
 }
 
 body {
     margin: 0;
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: var(--main-font);
     background-color: white;
+    /* letter-spacing: 1px; */
 }
 
 .container {
@@ -55,13 +58,13 @@ button:hover {
 .timeButtonsDiv {
     display: flex;
     justify-content: center;
-    font-family: 'Nunito Sans', sans-serif;
 }
 
 .timeframeButton {
     width: 100px;
     height: auto;
     margin: 1px;
+    font-family: var(--main-font);
 }
 
 .timeframeButton.clickedButton {
@@ -72,40 +75,112 @@ button:hover {
     border-color: var(--main-btn-color);
 }
 
-.searchButton {
-    position: relative;
-    margin-left: -4px;
-    border-top-left-radius: 0%;
-    border-bottom-left-radius: 0%;
-    width: 80px;
-    height: 46px;
-    font-family: 'Nunito Sans', sans-serif;
-}
+
 
 .searchBarForm {
-    text-align: center;
+    display: grid;
+    grid-template-columns: auto 25% 25% auto;
+    grid-template-rows: 44px;
+    /* text-align: center; */
     margin-top: 20px;
-    margin-right: auto;
-    margin-left: auto;
+    /* margin: auto; */
+}
+
+.searchDiv {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row: 1;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .searchBar {
-    position: relative;
-    height: 40px;
+    width: 100%;
+    height: 100%;
     font-size: 18px;
     max-width: 600px;
-    width: 50%;
     margin: 0;
-    border-style: solid;
-    border-width: 2px;
+    box-shadow: inset 0px 0px 0px 2px var(--main-bg-color);
     border-right: none;
+    border: none;
+    outline: none;
     border-radius: 5px 0 0 5px;
-    padding-left: 10px;
-    font-family: 'Nunito Sans', sans-serif;
+    /* padding-left: 10px; */
+    padding: 0;
+    padding-left: 5px;
+    font-family: var(--main-font);
+
 }
 
 .searchBar:focus {
     outline: none;
+}
+
+.searchButton {
+    float: inline-end;
+    height: 100%;
+    position: relative;
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+    width: fit-content;
+    margin-left: -2px;
+    /* height: 46px; */
+    font-family: var(--main-font);
+}
+
+
+
+.searchDropdown {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.329);
+    margin-top: 1px;
+
+    /* max-width: 600px;
+    width: 51%;
+    margin-left: 20%; */
+
+}
+
+.matchSymbol {
+    font-weight: bold;
+    text-align: left;
+}
+
+.matchName {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: right;
+    max-width: 75%;
+}
+
+.matchPair {
+    height: 40px;
+    cursor: pointer;
+    padding-right: 20px;
+    padding-left: 20px;
+    background-color: white;
+    display: flex;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.479);
+    justify-content: space-between;
+    align-items: center;
+}
+
+.matchPair:hover {
+    background-color: var(--main-bg-color);
+}
+
+
+
+.dataTitle {
+    text-align: center;
+    margin-top: -10px;
+    margin-bottom: 0;
 }
 
 .allStockData {
@@ -118,7 +193,7 @@ button:hover {
 
 .stockValues {
     display: none;
-    background-color: rgb(33, 43, 17);
+    background-color: rgb(112, 165, 28);
     font-size: 20px;
     margin: 5px;
     width: 20%;
@@ -142,6 +217,7 @@ button:hover {
 }
 
 .companyInfo {
+    position: relative;
     display: none;
     background-color: rgb(46, 46, 46);
     font-size: 20px;
@@ -156,6 +232,69 @@ button:hover {
 
 .companyInfo.show {
     display: block;
+}
+
+.companyNews {
+    display: none;
+    justify-content: center;
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.companyNews.show {
+    display: flex;
+
+}
+
+.eachArticle {
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 16px;
+    margin: 10px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: block;
+
+}
+
+.articleTitle {
+    display: inline-flex;
+    font-size: 22px;
+}
+
+.articleTimePublished {
+    display: inline-flex;
+    font-size: 14px;
+
+    /* float: right; */
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.articleAuthors {
+    display: block;
+    font-size: 14px;
+}
+
+.articleSource {
+    display: inline;
+    font-size: 14px;
+}
+
+.articleSummary {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.articleURL {
+    margin-top: 10px;
+    display: block;
+
+
 }
 
 /* .percent.negative {
@@ -182,7 +321,10 @@ ul {
     margin-bottom: 20px;
 }
 
-.industry, .country, .sector, .exchange {
+.industry,
+.country,
+.sector,
+.exchange {
     font-size: 16px;
 }
 
@@ -201,20 +343,20 @@ ul {
     padding: 2px; */
 }
 
-.dividendYield {
-    
+.dividendYield {}
+
+.fiftyTwoWeekHigh {}
+
+.fiftyTwoWeekLow {}
+
+.earningsPerShare {}
+
+.companyNews {
+    display: none;
 }
 
-.fiftyTwoWeekHigh {
-     
-}
-
-.fiftyTwoWeekLow {
-    
-}
-
-.earningsPerShare {
-    
+.companyNews.show {
+    display: block;
 }
 
 .percent::before {

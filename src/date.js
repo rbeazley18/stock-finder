@@ -24,3 +24,12 @@ export function convertDateToString(date) {
     return convertedDateAndTime
 }
 
+export function convertArticleDate(date) {
+    const year = date.substring(0, 4);
+    const month = date.substring(5, 7);
+    const day = date.substring(6, 8);
+
+    const newDate = `${month}/${day}/${year}`
+
+    return newDate;
+}

@@ -1,16 +1,17 @@
-import { stockComponentFactory, getSearchValue, showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, createErrorMessage, clearErrorMessage, percentChange } from "./main"
-import { convertDateToString } from "./date";
-import { revertTimeButtons, styleButtons } from "./buttons";
+import { stockComponentFactory, getSearchValue, showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, createErrorMessage, clearErrorMessage, percentChange, convertToPercent, showCompanyNews, hideCompanyNews, fixAuthorsListed, removeSearchChildren, clearSearchText } from "./main"
+import { convertDateToString, convertArticleDate } from "./date";
+import { revertTimeButtons, showButtonClicked, createTimeSeriesButtons } from "./buttons";
+import { firstSearch } from "./index";
 
 // API call to get intraday stock data
-export async function getTimeSeriesIntraday() {
+export async function getTimeSeriesIntraday(search) {
     clearErrorMessage();
     hideStockValues();
     revertTimeButtons();
-    styleButtons("intraday-btn");
-    const searchValue = getSearchValue();
-    console.log(searchValue);
-    
+    showButtonClicked("intraday-btn");
+    const searchValue = search;
+    // console.log(searchValue);
+
     try {
         const endpoint = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${searchValue}&interval=5min&apikey=${process.env.API_KEY}`
         const response = await fetch(endpoint, { mode: 'cors' });
@@ -25,12 +26,14 @@ export async function getTimeSeriesIntraday() {
         const open = stockComponentFactory('li', { id: "intraday-open", class: "open" }, stockData["Time Series (5min)"][lastRefreshedDate]["1. open"]);
         const close = stockComponentFactory('li', { id: "intraday-close", class: "close" }, stockData["Time Series (5min)"][lastRefreshedDate]["4. close"]);
 
+        const title = stockComponentFactory('h3', { id: "data-title", class: "dataTitle" }, "Intraday");
+
         const openInt = stockData["Time Series (5min)"][lastRefreshedDate]["1. open"];
         const closeInt = stockData["Time Series (5min)"][lastRefreshedDate]["4. close"];
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
 
         const stockValues = showStockValues();
-        stockValues.append(high, low, open, close, percent, lastRefreshed);
+        stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
         createErrorMessage();
@@ -39,19 +42,19 @@ export async function getTimeSeriesIntraday() {
 }
 
 // API call to get daily stock data
-export async function getTimeSeriesDaily() {
+export async function getTimeSeriesDaily(search) {
     clearErrorMessage();
     hideStockValues();
     revertTimeButtons();
-    styleButtons("daily-btn");
-    const searchValue = getSearchValue();
-    console.log(searchValue);
- 
+    showButtonClicked("daily-btn");
+    const searchValue = search;
+    // console.log(searchValue);
+
     try {
-        const endpoint = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${searchValue}&apikey=${process.env.API_KEY}`
+        const endpoint = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${searchValue}&apikey=${process.env.API_KEY}`
         const response = await fetch(endpoint, { mode: 'cors' });
         const stockData = await response.json();
-        console.log(stockData)
+        // console.log(stockData)
 
         const lastRefreshedDate = stockData["Meta Data"]["3. Last Refreshed"].slice(0, 10);
         const lastRefreshed = stockComponentFactory('li', { id: "last-refreshed", class: "lastRefreshed" }, convertDateToString(lastRefreshedDate));
@@ -61,12 +64,14 @@ export async function getTimeSeriesDaily() {
         const open = stockComponentFactory('li', { id: "daily-open", class: "open" }, stockData["Time Series (Daily)"][lastRefreshedDate]["1. open"]);
         const close = stockComponentFactory('li', { id: "daily-close", class: "close" }, stockData["Time Series (Daily)"][lastRefreshedDate]["4. close"]);
 
+        const title = stockComponentFactory('h3', { id: "data-title", class: "dataTitle" }, "Daily");
+
         const openInt = stockData["Time Series (Daily)"][lastRefreshedDate]["1. open"];
         const closeInt = stockData["Time Series (Daily)"][lastRefreshedDate]["4. close"];
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
-        
+
         const stockValues = showStockValues();
-        stockValues.append(high, low, open, close, percent, lastRefreshed);
+        stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         hideStockValues();
         console.log(error);
@@ -76,14 +81,14 @@ export async function getTimeSeriesDaily() {
 }
 
 // API call to get weekly stock data
-export async function getTimeSeriesWeekly() {
+export async function getTimeSeriesWeekly(search) {
     clearErrorMessage();
     hideStockValues();
     revertTimeButtons();
-    styleButtons("weekly-btn");
-    const searchValue = getSearchValue();
-    console.log(searchValue);
-    
+    showButtonClicked("weekly-btn");
+    const searchValue = search;
+    // console.log(searchValue);
+
     try {
         const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
         const stockData = await response.json();
@@ -103,10 +108,11 @@ export async function getTimeSeriesWeekly() {
         const openInt = stockData["Weekly Time Series"][lastRefreshedDate]["1. open"];
         const closeInt = stockData["Weekly Time Series"][lastRefreshedDate]["4. close"];
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
-        
+
+        const title = stockComponentFactory('h3', { id: "data-title", class: "dataTitle" }, "Weekly");
 
         const stockValues = showStockValues();
-        stockValues.append(high, low, open, close, percent, lastRefreshed);
+        stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
         createErrorMessage();
@@ -115,14 +121,14 @@ export async function getTimeSeriesWeekly() {
 }
 
 
-export async function getTimeSeriesMonthly() {
+export async function getTimeSeriesMonthly(search) {
     clearErrorMessage();
     hideStockValues();
     revertTimeButtons();
-    styleButtons("monthly-btn");
-    const searchValue = getSearchValue();
-    console.log(searchValue);
-    
+    showButtonClicked("monthly-btn");
+    const searchValue = search;
+    // console.log(searchValue);
+
     try {
         const response = await fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
         const stockData = await response.json();
@@ -144,7 +150,7 @@ export async function getTimeSeriesMonthly() {
         const openInt = stockData["Monthly Time Series"][lastRefreshedDate]["1. open"];
         const closeInt = stockData["Monthly Time Series"][lastRefreshedDate]["4. close"];
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
-        
+
 
         const stockValues = showStockValues();
         stockValues.append(title, high, low, open, close, percent, lastRefreshed);
@@ -155,15 +161,15 @@ export async function getTimeSeriesMonthly() {
 
 }
 
-export async function getCompanyOverview() {
+export async function getCompanyOverview(search) {
     clearErrorMessage();
     hideCompanyInfo();
-    const searchValue = getSearchValue();
-    
+    const searchValue = search;
+
     try {
         const response = await fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
         const stockData = await response.json();
-        console.log(stockData)
+        // console.log(stockData)
 
 
         const symbol = stockComponentFactory('li', { id: "symbol", class: "symbol" }, stockData["Symbol"]);
@@ -184,7 +190,7 @@ export async function getCompanyOverview() {
 
         const peRatio = stockComponentFactory('li', { id: "peRatio", class: "peRatio" }, stockData["PERatio"]);
 
-        const dividendYield = stockComponentFactory('li', { id: "dividend-yield", class: "dividendYield" }, `${stockData["DividendYield"] * 100}%`);
+        const dividendYield = stockComponentFactory('li', { id: "dividend-yield", class: "dividendYield" }, convertToPercent(stockData["DividendYield"]));
 
         const fiftyTwoWeekHigh = stockComponentFactory('li', { id: "fifty-two-week-high", class: "fiftyTwoWeekHigh" }, stockData["52WeekHigh"]);
 
@@ -192,45 +198,131 @@ export async function getCompanyOverview() {
 
         const earningsPerShare = stockComponentFactory('li', { id: "earnings-per-share", class: "earningsPerShare" }, stockData["EPS"]);
 
-        // const allData = getKeyAndValue(stockData);
-        // console.log(allData);
         const companyInfo = showCompanyInfo();
-        companyInfo.append(symbol, name, assetType, exchange, country, sector, industry, description,  peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
+        companyInfo.append(symbol, name, assetType, exchange, country, sector, industry, description, peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
     } catch (error) {
+        hideCompanyInfo();
         console.log(error);
         createErrorMessage();
     }
 
 }
 
-// function getKeyAndValue(data) {
-//     const sliced = Object.keys(data).slice(0, 2).reduce((result, key) => {
-//         result[key] = data[key];
 
-//         return result;
-//     }, {});
-//     return sliced;
-// }
+export async function getCompanyNews(search) {
+    clearErrorMessage();
+    hideCompanyNews();
+    const searchValue = search;
 
-// function getKeyAndValue(data) {
-//         Object.entries(data).forEach(([key, value]) => {
-//     `${key}: ${value}`;
-// });
-// }
+    try {
+        const response = await fetch(`https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${searchValue}&topics=earnings&apikey=${process.env.API_KEY}`, { mode: 'cors' });
+        const newsData = await response.json();
+        // console.log(newsData)
+        // console.log(newsData["feed"]);
 
-// function addAllData(data) {
-//     data.forEach(item => {
-//         stockComponentFactory('li', { id: "all-data", class: "companyInfo" }, item);
-//     });
-// }
+        function getTenArticles() {
+            let values = []
+            for (let i = 0; i < 10; i++) {
+                let eachArticle = newsData["feed"][i];
 
-// function getKeyAndValue(data) {
-//     let infoArray = [];
-//     for (const [key, value] of Object.entries(data)) {
-//         let pairs = `${key}: ${value}`;
-//         return infoArray.push(pairs);
+                values.push(eachArticle);
+            }
+            // console.log(values);
+            return values;
+        }
+
+        const firstTenArticles = getTenArticles()
+        // console.log(tenValues);
+
+        const companyNews = showCompanyNews();
+
+        function articleMap(data) {
+            data.map(value => {
+                let title = value.title;
+                // console.log(`Title: ${title}`);
+                let authors = value.authors;
+                // console.log(authors)
+                let source = value.source;
+                let summary = value.summary;
+                let timePublished = value.time_published;
+                let url = value.url;
+
+                const eachArticle = stockComponentFactory('div', { id: "each-article", class: "eachArticle" })
+                const articleTitle = stockComponentFactory('p', { id: "article-title", class: "articleTitle" }, title);
+                const articleAuthors = stockComponentFactory('p', { id: "article-authors", class: "articleAuthors" }, fixAuthorsListed(authors));
+                const articleSource = stockComponentFactory('p', { id: "article-source", class: "articleSource" }, source);
+                const articleSummary = stockComponentFactory('p', { id: "article-summary", class: "articleSummary" }, summary);
+                const articleTimePublished = stockComponentFactory('p', { id: "article-timePublished", class: "articleTimePublished" }, convertArticleDate(timePublished));
+                const articleURL = stockComponentFactory('a', { id: "article-url", class: "articleURL", href: url }, url);
+
+                eachArticle.append(articleTitle, articleTimePublished, articleAuthors, articleSource, articleSummary, articleURL);
+                companyNews.append(eachArticle);
+            })
+        }
+
+        articleMap(firstTenArticles);
+    } catch (error) {
+        hideCompanyNews();
+        console.log(error);
+        createErrorMessage();
+    }
+
+}
+
+export async function getSearchAutoComplete() {
+    clearErrorMessage();
+    hideCompanyNews();
+    removeSearchChildren();
+    let searchValue = getSearchValue();
+
+    try {
+
+        const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
+        const searchData = await response.json();
+        // console.log(searchData);
+
+        const searchDropdown = document.getElementById("search-dropdown");
+
+        const bestMatches = searchData["bestMatches"];
+        // console.log(bestMatches);
+
         
-//     }
-//     return infoArray;
-// };
 
+        function mapAndAppendBestMatches(data) {
+            data.map(value => {
+                let symbol = value["1. symbol"];
+                // console.log(`Symbol: ${symbol}`);
+                let name = value["2. name"];
+                // console.log(name)
+
+                const matchPair = stockComponentFactory('a', { id: "match-pair", class: "matchPair", name: symbol });
+
+                const matchSymbol = stockComponentFactory('p', { id: "match-symbol", class: "matchSymbol" }, symbol)
+                const matchName = stockComponentFactory('p', { id: "match-name", class: "matchName" }, name);
+
+                matchPair.append(matchSymbol, matchName);
+                searchDropdown.append(matchPair);
+
+                (function matchPairClicked() {
+                    matchPair.addEventListener("click", () => {
+                        const matchValue = matchPair.name;
+                        console.log(`matchValue: ${matchValue}`);
+                        removeSearchChildren();
+                        clearSearchText();
+                        createTimeSeriesButtons(matchValue);
+                        getCompanyOverview(matchValue);
+                        getTimeSeriesDaily(matchValue);
+                        getCompanyNews(matchValue);
+                    });
+                })();
+            });
+        }
+
+        mapAndAppendBestMatches(bestMatches);
+
+    } catch (error) {
+        console.log(error);
+        // createErrorMessage();
+    }
+
+}

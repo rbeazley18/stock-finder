@@ -39,6 +39,19 @@ export function hideCompanyInfo() {
     return companyInfo;
 }
 
+export function showCompanyNews() {
+    const companyNews = document.getElementById("company-news")
+    companyNews.classList.add("show");
+    return companyNews;
+}
+
+export function hideCompanyNews() {
+    const companyNews = document.getElementById("company-news")
+    companyNews.classList.remove("show");
+    companyNews.innerHTML = "";
+    return companyNews;
+}
+
 export function createErrorMessage() {
     const errorMsg = document.getElementById("error-message");
     errorMsg.textContent = "No Data Found";
@@ -64,6 +77,30 @@ export function percentChange(open, close) {
         // percentPositive();
         return `${fixedPercent}%`;
     };
+}
+
+export function convertToPercent(data) {
+    const percent = data * 100
+    const fixedPercent = percent.toFixed(2);
+    return `${fixedPercent}%`;
+}
+
+export function fixAuthorsListed(authors) {
+    const fixedAuthors = authors.join(", ");
+    return fixedAuthors;
+}
+
+export function removeSearchChildren() {
+    const searchDropdown = document.getElementById("search-dropdown");
+    while (searchDropdown.firstChild) {
+        searchDropdown.firstChild.remove();
+    }
+}
+
+export function clearSearchText() {
+    const searchText = document.getElementById("search-bar");
+    searchText.innerHTML = "";
+    return searchText;
 }
 
 // function percentNegative() {

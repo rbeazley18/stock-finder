@@ -1,21 +1,22 @@
 import { stockComponentFactory } from "./main";
 import { getTimeSeriesIntraday, getTimeSeriesDaily, getTimeSeriesWeekly, getTimeSeriesMonthly } from "./api";
 
-export function createTimeSeriesButtons() {
+export function createTimeSeriesButtons(search) {
+
     const timeframeButtons = document.getElementById("timeframe-buttons")
     timeframeButtons.innerHTML = "";
 
     const intradayBtn = stockComponentFactory('button', { id: "intraday-btn", class: "timeframeButton" }, "Intraday");
-    intradayBtn.addEventListener("click", getTimeSeriesIntraday);
+    intradayBtn.addEventListener("click", () => { getTimeSeriesIntraday(search); });
 
     const dailyBtn = stockComponentFactory('button', { id: "daily-btn", class: "timeframeButton" }, "Daily");
-    dailyBtn.addEventListener("click", getTimeSeriesDaily);
+    dailyBtn.addEventListener("click", () => { getTimeSeriesDaily(search) });
 
     const weeklyBtn = stockComponentFactory('button', { id: "weekly-btn", class: "timeframeButton" }, "Weekly");
-    weeklyBtn.addEventListener("click", getTimeSeriesWeekly);
+    weeklyBtn.addEventListener("click", () => { getTimeSeriesWeekly(search) });
 
     const monthlyBtn = stockComponentFactory('button', { id: "monthly-btn", class: "timeframeButton" }, "Monthly");
-    monthlyBtn.addEventListener("click", getTimeSeriesMonthly);
+    monthlyBtn.addEventListener("click", () => { getTimeSeriesMonthly(search) });
 
     const eachButton = document.querySelectorAll(".timeframeButton");
     eachButton.forEach((button) => {
@@ -35,7 +36,7 @@ export function revertTimeButtons() {
 }
 
 // factory function to style timeframe buttons
-export function styleButtons(buttonID) {
+export function showButtonClicked(buttonID) {
     const timeBtn = document.getElementById(buttonID);
     timeBtn.classList.add("clickedButton");
 };
