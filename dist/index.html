@@ -15,13 +15,15 @@
 <body class="">
     <div id="container" class="container">
         <h1>Stock Finder</h1>
-        <form method="post" autocomplete="off" action="javascript:;" class="searchBarForm">
-            <div class="searchDiv">
-                <input type="text" id="search-bar" class="searchBar" placeholder="Search...">
-                <button type="submit" id="submit-ticker" class="searchButton">Search</button>
-            </div>
-            <div id="search-dropdown" class="searchDropdown"></div>
-        </form>
+        <div class="formDiv">
+            <form method="post" autocomplete="off" action="javascript:;" class="searchBarForm">
+                <div id="search-div" class="searchDiv">
+                    <input type="text" id="search-bar" class="searchBar" placeholder="Search...">
+                    <button type="submit" id="submit-ticker" class="searchButton">Search</button>
+                </div>
+                <div id="search-dropdown" class="searchDropdown"></div>
+            </form>
+        </div>
         <h2 id="error-message" class="errorMessage"></h2>
         <div id="timeframe-buttons" class="timeButtonsDiv">
         </div>

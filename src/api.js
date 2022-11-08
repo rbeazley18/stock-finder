@@ -1,4 +1,4 @@
-import { stockComponentFactory, getSearchValue, showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, createErrorMessage, clearErrorMessage, percentChange, convertToPercent, showCompanyNews, hideCompanyNews, fixAuthorsListed, removeSearchChildren, clearSearchText } from "./main"
+import { stockComponentFactory, getSearchValue, showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, createErrorMessage, clearErrorMessage, percentChange, convertToPercent, showCompanyNews, hideCompanyNews, fixAuthorsListed, removeSearchDropdown, clearSearchText } from "./main"
 import { convertDateToString, convertArticleDate } from "./date";
 import { revertTimeButtons, showButtonClicked, createTimeSeriesButtons } from "./buttons";
 import { firstSearch } from "./index";
@@ -272,7 +272,7 @@ export async function getCompanyNews(search) {
 export async function getSearchAutoComplete() {
     clearErrorMessage();
     hideCompanyNews();
-    removeSearchChildren();
+    removeSearchDropdown();
     let searchValue = getSearchValue();
 
     try {
@@ -282,6 +282,9 @@ export async function getSearchAutoComplete() {
         // console.log(searchData);
 
         const searchDropdown = document.getElementById("search-dropdown");
+        if (!searchValue) {
+            searchDropdown.style.display = "none";
+        }
 
         const bestMatches = searchData["bestMatches"];
         // console.log(bestMatches);
@@ -301,13 +304,15 @@ export async function getSearchAutoComplete() {
                 const matchName = stockComponentFactory('p', { id: "match-name", class: "matchName" }, name);
 
                 matchPair.append(matchSymbol, matchName);
+                searchDropdown.style.display = "block";
                 searchDropdown.append(matchPair);
+                
 
                 (function matchPairClicked() {
                     matchPair.addEventListener("click", () => {
                         const matchValue = matchPair.name;
                         console.log(`matchValue: ${matchValue}`);
-                        removeSearchChildren();
+                        removeSearchDropdown();
                         clearSearchText();
                         createTimeSeriesButtons(matchValue);
                         getCompanyOverview(matchValue);

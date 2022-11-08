@@ -90,16 +90,17 @@ export function fixAuthorsListed(authors) {
     return fixedAuthors;
 }
 
-export function removeSearchChildren() {
+export function removeSearchDropdown() {
     const searchDropdown = document.getElementById("search-dropdown");
     while (searchDropdown.firstChild) {
         searchDropdown.firstChild.remove();
     }
+    searchDropdown.style.display = "none";
 }
 
 export function clearSearchText() {
     const searchText = document.getElementById("search-bar");
-    searchText.innerHTML = "";
+    searchText.value = "";
     return searchText;
 }
 
