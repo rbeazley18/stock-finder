@@ -54,7 +54,7 @@ export async function getTimeSeriesDaily(search) {
         const endpoint = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${searchValue}&apikey=${process.env.API_KEY}`
         const response = await fetch(endpoint, { mode: 'cors' });
         const stockData = await response.json();
-        // console.log(stockData)
+        console.log(stockData)
 
         const lastRefreshedDate = stockData["Meta Data"]["3. Last Refreshed"].slice(0, 10);
         const lastRefreshed = stockComponentFactory('li', { id: "last-refreshed", class: "lastRefreshed" }, convertDateToString(lastRefreshedDate));
@@ -279,7 +279,7 @@ export async function getSearchAutoComplete() {
 
         const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
         const searchData = await response.json();
-        // console.log(searchData);
+        console.log(searchData);
 
         const searchDropdown = document.getElementById("search-dropdown");
         if (!searchValue) {
@@ -287,9 +287,16 @@ export async function getSearchAutoComplete() {
         }
 
         const bestMatches = searchData["bestMatches"];
-        // console.log(bestMatches);
+        console.log(bestMatches);
 
-        
+        // let bestMatchesSerialized = JSON.stringify(bestMatches);
+
+        // localStorage.setItem("matchesObject", bestMatchesSerialized);
+
+        // let matchesObjectDeserialized = JSON.parse(localStorage.getItem("matchesObject"));
+
+        // console.log(matchesObjectDeserialized);
+
 
         function mapAndAppendBestMatches(data) {
             data.map(value => {
@@ -297,6 +304,22 @@ export async function getSearchAutoComplete() {
                 // console.log(`Symbol: ${symbol}`);
                 let name = value["2. name"];
                 // console.log(name)
+
+                localStorage.setItem(symbol, name);
+
+                if (!localStorage.getItem(symbol)) {
+                    
+                }
+
+                // for (let i = 0; i < localStorage.length; i++) {
+                //     let key = localStorage.key(i);
+                //     let wayfair = localStorage.getItem(key);
+                //     console.log(`${key}: ${wayfair}`);
+                // }
+
+                // let wayfair = localStorage.getItem("W");
+                // console.log(wayfair);
+                
 
                 const matchPair = stockComponentFactory('a', { id: "match-pair", class: "matchPair", name: symbol });
 
@@ -306,12 +329,12 @@ export async function getSearchAutoComplete() {
                 matchPair.append(matchSymbol, matchName);
                 searchDropdown.style.display = "block";
                 searchDropdown.append(matchPair);
-                
+
 
                 (function matchPairClicked() {
                     matchPair.addEventListener("click", () => {
                         const matchValue = matchPair.name;
-                        console.log(`matchValue: ${matchValue}`);
+                        // console.log(`matchValue: ${matchValue}`);
                         removeSearchDropdown();
                         clearSearchText();
                         createTimeSeriesButtons(matchValue);
