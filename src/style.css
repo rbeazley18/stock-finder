@@ -153,7 +153,7 @@ button:hover {
     margin-left: 1px; */
     margin: auto;
     
-    border: 1px solid rgba(128, 128, 128, 0.479);
+    border: 1px solid rgba(41, 41, 41, 0.479);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-top: none;
