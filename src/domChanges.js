@@ -24,6 +24,20 @@ export function hideCompanyInfo() {
     return companyInfo;
 }
 
+// export function showAllStockData() {
+//     const allStockData = document.getElementById("all-stock-data");
+//     allStockData.style.display = "flex"
+//     return allStockData;
+// }
+
+export function showAllStockData() {
+    const allStockData = document.getElementById("all-stock-data");
+    allStockData.style.display = "flex"
+    return allStockData;
+}
+
+
+
 export function showCompanyNews() {
     const companyNews = document.getElementById("company-news")
     companyNews.classList.add("show");

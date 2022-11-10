@@ -23,7 +23,7 @@ body {
 }
 
 .container {
-    /* border: 5px solid black; */
+    border: 5px solid black;
     max-width: 1600px;
     margin: auto;
 }
@@ -200,11 +200,15 @@ button:hover {
 }
 
 .allStockData {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: start;
     margin: 10px;
     margin-top: 40px;
+    border: 2px black solid;
+    border-radius: 10px;
+    background-color: rgb(46, 46, 46);
+    padding: 10px;
 }
 
 .stockValues {
@@ -235,15 +239,15 @@ button:hover {
 .companyInfo {
     position: relative;
     display: none;
-    background-color: rgb(46, 46, 46);
+    /* background-color: rgb(46, 46, 46); */
     font-size: 20px;
-    margin: 5px;
-    margin-top: 0;
-    border-radius: 10px;
+    /* margin: 5px; */
+    /* margin-top: 0; */
+    /* border-radius: 10px; */
     color: white;
-    padding: 20px;
+    /* padding: 20px; */
     width: 60%;
-    margin: 0 auto;
+    /* margin: 0 auto; */
 }
 
 .companyInfo.show {
