@@ -1,7 +1,12 @@
-import { stockComponentFactory, getSearchValue, showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, createErrorMessage, clearErrorMessage, percentChange, convertToPercent, showCompanyNews, hideCompanyNews, fixAuthorsListed, removeSearchDropdown, clearSearchText } from "./main"
+import { showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, showCompanyNews, hideCompanyNews, clearErrorMessage } from "./domChanges";
+import { percentChange, convertToPercent, fixAuthorsListed } from "./modifications"
+import { stockComponentFactory } from "./domCreation";
 import { convertDateToString, convertArticleDate } from "./date";
-import { revertTimeButtons, showButtonClicked, createTimeSeriesButtons } from "./buttons";
-import { firstSearch } from "./index";
+import { revertTimeButtons, showButtonClicked } from "./buttons";
+import { mapAndAppendBestMatches, removeSearchDropdown } from "./searchDropdown";
+import { getSearchValue } from "./getValues";
+import { createErrorMessage } from "./errorMsg";
+
 
 // API call to get intraday stock data
 export async function getTimeSeriesIntraday(search) {
@@ -276,77 +281,34 @@ export async function getSearchAutoComplete() {
     let searchValue = getSearchValue();
 
     try {
+        if (!localStorage.getItem(searchValue)) {
+            const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
+            console.log(searchValue);
+            const searchData = await response.json();
+            // console.log(searchData);
 
-        const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
-        const searchData = await response.json();
-        console.log(searchData);
+            const searchDropdown = document.getElementById("search-dropdown");
+            if (!searchValue) {
+                searchDropdown.style.display = "none";
+            }
 
-        const searchDropdown = document.getElementById("search-dropdown");
-        if (!searchValue) {
-            searchDropdown.style.display = "none";
+            const bestMatches = searchData["bestMatches"];
+            // console.log(bestMatches);
+
+            let bestMatchesSerialized = JSON.stringify(bestMatches);
+
+            localStorage.setItem(searchValue, bestMatchesSerialized);
+
+            // console.log(matchesObjectDeserialized);
+
+            mapAndAppendBestMatches(bestMatches);
+        } else {
+            let matchesObjectDeserialized = JSON.parse(localStorage.getItem(searchValue));
+            console.log(matchesObjectDeserialized);
+            mapAndAppendBestMatches(matchesObjectDeserialized);
         }
 
-        const bestMatches = searchData["bestMatches"];
-        console.log(bestMatches);
 
-        // let bestMatchesSerialized = JSON.stringify(bestMatches);
-
-        // localStorage.setItem("matchesObject", bestMatchesSerialized);
-
-        // let matchesObjectDeserialized = JSON.parse(localStorage.getItem("matchesObject"));
-
-        // console.log(matchesObjectDeserialized);
-
-
-        function mapAndAppendBestMatches(data) {
-            data.map(value => {
-                let symbol = value["1. symbol"];
-                // console.log(`Symbol: ${symbol}`);
-                let name = value["2. name"];
-                // console.log(name)
-
-                localStorage.setItem(symbol, name);
-
-                if (!localStorage.getItem(symbol)) {
-                    
-                }
-
-                // for (let i = 0; i < localStorage.length; i++) {
-                //     let key = localStorage.key(i);
-                //     let wayfair = localStorage.getItem(key);
-                //     console.log(`${key}: ${wayfair}`);
-                // }
-
-                // let wayfair = localStorage.getItem("W");
-                // console.log(wayfair);
-                
-
-                const matchPair = stockComponentFactory('a', { id: "match-pair", class: "matchPair", name: symbol });
-
-                const matchSymbol = stockComponentFactory('p', { id: "match-symbol", class: "matchSymbol" }, symbol)
-                const matchName = stockComponentFactory('p', { id: "match-name", class: "matchName" }, name);
-
-                matchPair.append(matchSymbol, matchName);
-                searchDropdown.style.display = "block";
-                searchDropdown.append(matchPair);
-
-
-                (function matchPairClicked() {
-                    matchPair.addEventListener("click", () => {
-                        const matchValue = matchPair.name;
-                        // console.log(`matchValue: ${matchValue}`);
-                        removeSearchDropdown();
-                        clearSearchText();
-                        createTimeSeriesButtons(matchValue);
-                        getCompanyOverview(matchValue);
-                        getTimeSeriesDaily(matchValue);
-                        getCompanyNews(matchValue);
-                    });
-                })();
-            });
-        }
-
-        mapAndAppendBestMatches(bestMatches);
 
     } catch (error) {
         console.log(error);
@@ -354,3 +316,4 @@ export async function getSearchAutoComplete() {
     }
 
 }
+

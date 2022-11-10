@@ -1,4 +1,4 @@
-import { stockComponentFactory } from "./main";
+import { stockComponentFactory } from "./domCreation";
 import { getTimeSeriesIntraday, getTimeSeriesDaily, getTimeSeriesWeekly, getTimeSeriesMonthly } from "./api";
 
 export function createTimeSeriesButtons(search) {

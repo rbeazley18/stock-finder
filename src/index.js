@@ -1,7 +1,9 @@
 import { createTimeSeriesButtons } from './buttons';
 import { getTimeSeriesDaily, getCompanyOverview, getCompanyNews, getSearchAutoComplete } from './api';
 import './style.css';
-import { getSearchValue, removeSearchDropdown, clearSearchText } from './main';
+import { clearSearchText } from './domChanges';
+import { removeSearchDropdown } from './searchDropdown';
+import { getSearchValue } from './getValues';
 
 function searchInitiated() {
     const searchSubmit = document.getElementById("submit-ticker");
