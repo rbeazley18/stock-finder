@@ -176,7 +176,6 @@ export async function getCompanyOverview(search) {
         const stockData = await response.json();
         // console.log(stockData)
 
-
         const symbol = stockComponentFactory('li', { id: "symbol", class: "symbol" }, stockData["Symbol"]);
 
         const assetType = stockComponentFactory('li', { id: "asset-type", class: "assetType" }, stockData["AssetType"]);
@@ -203,8 +202,14 @@ export async function getCompanyOverview(search) {
 
         const earningsPerShare = stockComponentFactory('li', { id: "earnings-per-share", class: "earningsPerShare" }, stockData["EPS"]);
 
+        const metricsDiv = stockComponentFactory('div', { id: "stock-metrics", class: "stockMetrics" });
+
+        const title = stockComponentFactory('h3', { id: "metrics-title", class: "metricsTitle" }, "Metrics");
+
+        metricsDiv.append(title, peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
+
         const companyInfo = showCompanyInfo();
-        companyInfo.append(symbol, name, assetType, exchange, country, sector, industry, description, peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
+        companyInfo.append(symbol, name, assetType, exchange, country, sector, industry, description, metricsDiv);
     } catch (error) {
         hideCompanyInfo();
         console.log(error);

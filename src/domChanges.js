@@ -53,7 +53,7 @@ export function hideCompanyNews() {
 
 export function clearErrorMessage() {
     const errorMsg = document.getElementById("error-message");
-    errorMsg.innerHTML = "";
+    errorMsg.style.display = "none";
     return errorMsg;
 }
 
@@ -61,4 +61,10 @@ export function clearSearchText() {
     const searchText = document.getElementById("search-bar");
     searchText.value = "";
     return searchText;
+}
+
+export function hideStockInfoAndValues() {
+    const infoAndValues = document.getElementById("info-and-values");
+    infoAndValues.style.display = "none";
+    return infoAndValues;
 }
