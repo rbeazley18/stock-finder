@@ -24,6 +24,20 @@ export function hideCompanyInfo() {
     return companyInfo;
 }
 
+// export function showAllStockData() {
+//     const allStockData = document.getElementById("all-stock-data");
+//     allStockData.style.display = "flex"
+//     return allStockData;
+// }
+
+export function showAllStockData() {
+    const allStockData = document.getElementById("all-stock-data");
+    allStockData.style.display = "flex"
+    return allStockData;
+}
+
+
+
 export function showCompanyNews() {
     const companyNews = document.getElementById("company-news")
     companyNews.classList.add("show");
@@ -39,7 +53,7 @@ export function hideCompanyNews() {
 
 export function clearErrorMessage() {
     const errorMsg = document.getElementById("error-message");
-    errorMsg.innerHTML = "";
+    errorMsg.style.display = "none";
     return errorMsg;
 }
 
@@ -47,4 +61,16 @@ export function clearSearchText() {
     const searchText = document.getElementById("search-bar");
     searchText.value = "";
     return searchText;
+}
+
+export function hideStockInfoAndValues() {
+    const infoAndValues = document.getElementById("info-and-values");
+    infoAndValues.style.display = "none";
+    return infoAndValues;
+}
+
+export function showStockInfoAndValues() {
+    const infoAndValues = document.getElementById("info-and-values");
+    infoAndValues.style.display = "flex";
+    return infoAndValues;
 }

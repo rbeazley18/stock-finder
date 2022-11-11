@@ -1,5 +1,5 @@
 import { stockComponentFactory } from "./domCreation";
-import { clearSearchText } from "./domChanges";
+import { clearSearchText, showAllStockData } from "./domChanges";
 import { createTimeSeriesButtons } from "./buttons";
 import { getCompanyOverview, getTimeSeriesDaily, getCompanyNews } from "./api";
 
@@ -29,6 +29,7 @@ export function mapAndAppendBestMatches(data) {
                 removeSearchDropdown();
                 clearSearchText();
                 createTimeSeriesButtons(matchValue);
+                showAllStockData();
                 getCompanyOverview(matchValue);
                 getTimeSeriesDaily(matchValue);
                 getCompanyNews(matchValue);

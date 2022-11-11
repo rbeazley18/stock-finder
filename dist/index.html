@@ -14,7 +14,7 @@
 
 <body class="">
     <div id="container" class="container">
-        <h1>Stock Finder</h1>
+        <h1 class="header">Stock Finder</h1>
         <div class="formDiv">
             <form method="post" autocomplete="off" action="javascript:;" class="searchBarForm">
                 <div id="search-div" class="searchDiv">
@@ -24,14 +24,20 @@
                 <div id="search-dropdown" class="searchDropdown"></div>
             </form>
         </div>
-        <h2 id="error-message" class="errorMessage"></h2>
-        <div id="timeframe-buttons" class="timeButtonsDiv">
-        </div>
-        <div class="allStockData">
-            <ul id="company-info" class="companyInfo">
-            </ul>
-            <ul id="stock-values" class="stockValues">
-            </ul>
+        
+        
+        <div id="all-stock-data" class="allStockData">
+            <h2 id="error-message" class="errorMessage"></h2>
+            <div class="infoAndValues" id="info-and-values">
+                <ul id="company-info" class="companyInfo">
+                </ul>
+                <div class="valsAndButtons">
+                    <ul id="stock-values" class="stockValues">
+                    </ul>
+                    <div id="timeframe-buttons" class="timeButtonsDiv">
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="company-news" class="companyNews"></div>
     </div>

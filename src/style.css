@@ -12,7 +12,7 @@
     --main-btn-bg-color: white;
     --main-font: 'Nunito Sans', sans-serif;
     --primary-color: blueviolet;
-
+    --main-border-radius: 10px
 }
 
 body {
@@ -34,8 +34,10 @@ h1 {
 }
 
 .errorMessage {
-    display: flex;
-    justify-content: center;
+    display: block;
+    color: white;
+    margin: 20px;
+    /* justify-content: center; */
 }
 
 button {
@@ -57,29 +59,9 @@ button:hover {
     border-color: var(--main-btn-color);
 }
 
-.timeButtonsDiv {
-    display: flex;
-    justify-content: center;
-}
 
-.timeframeButton {
-    width: 100px;
-    height: auto;
-    margin: 1px;
-    font-family: var(--main-font);
-}
 
-.timeframeButton.clickedButton {
-    background-color: var(--main-btn-bg-color);
-    color: var(--main-btn-color);
-    border-style: solid;
-    border-width: 2px;
-    border-color: var(--main-btn-color);
-}
-
-.formDiv {
-    
-}
+.formDiv {}
 
 .searchBarForm {
     display: grid;
@@ -99,7 +81,7 @@ button:hover {
     grid-row: 1;
     text-align: center;
     white-space: nowrap;
-    
+
 }
 
 .searchBar {
@@ -118,7 +100,7 @@ button:hover {
     padding-left: 5px;
     font-family: var(--main-font);
 
-    
+
 
 }
 
@@ -147,12 +129,12 @@ button:hover {
     grid-column-start: 2;
     grid-column-end: 4;
     width: 99%;
-    
+
     /* margin-top: -5px;
     margin-right: 1px;
     margin-left: 1px; */
     margin: auto;
-    
+
     border: 1px solid rgba(41, 41, 41, 0.479);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -193,38 +175,102 @@ button:hover {
 
 
 
-.dataTitle {
-    text-align: center;
-    margin-top: -10px;
-    margin-bottom: 0;
-}
+
 
 .allStockData {
-    display: flex;
+    display: none;
+    flex-direction: column;
     justify-content: center;
-    align-items: start;
-    margin: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: auto;
     margin-top: 40px;
+    border: 2px black solid;
+    border-radius: 10px;
+    background-color: rgb(46, 46, 46);
+    padding: 30px;
+}
+
+.infoAndValues {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+@media (max-width: 765px) {
+    .infoAndValues {
+        justify-content: center;
+    }
+
+    .companyInfo.show {
+        width: 80%;
+        }
+
+        .stockMetrics {
+            margin: auto;
+        }
+}
+
+.valsAndButtons {
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    align-items: center;
+    width: 300px;
+
 }
 
 .stockValues {
     display: none;
+    box-sizing: border-box;
+    margin: 20px;
+    margin-bottom: 0;
     background-color: rgb(112, 165, 28);
-    font-size: 20px;
-    margin: 5px;
-    width: 20%;
+    font-size: 18px;
+    width: 100%;
+    text-align: left;
     height: fit-content;
     border-radius: 10px;
-    text-align: left;
     color: white;
     padding: 20px;
     padding-bottom: 5px;
-    margin: 0 auto;
+
 }
 
 .stockValues.show {
     display: block;
 }
+
+.dataTitle {
+    text-align: center;
+    margin: 0;
+    font-size: 22px;
+}
+
+.timeButtonsDiv {
+    margin-top: 2px;
+
+}
+
+.timeframeButton {
+    width: auto;
+    height: auto;
+    margin: 1px;
+    font-size: 14px;
+    font-family: var(--main-font);
+}
+
+.timeframeButton.clickedButton {
+    background-color: var(--main-btn-bg-color);
+    color: var(--main-btn-color);
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--main-btn-color);
+}
+
+
 
 .lastRefreshed {
     font-size: 12px;
@@ -233,96 +279,14 @@ button:hover {
 }
 
 .companyInfo {
-    position: relative;
     display: none;
-    background-color: rgb(46, 46, 46);
     font-size: 20px;
-    margin: 5px;
-    margin-top: 0;
-    border-radius: 10px;
     color: white;
-    padding: 20px;
-    width: 60%;
-    margin: 0 auto;
+    width: 50%;
 }
 
 .companyInfo.show {
     display: block;
-}
-
-.companyNews {
-    display: none;
-    justify-content: center;
-    width: 80%;
-    margin: auto;
-    margin-top: 20px;
-}
-
-.companyNews.show {
-    display: flex;
-
-}
-
-.eachArticle {
-    border: 2px solid var(--primary-color);
-    border-radius: 10px;
-    padding: 16px;
-    margin: 10px;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    display: block;
-
-}
-
-.articleTitle {
-    display: inline-flex;
-    font-size: 22px;
-}
-
-.articleTimePublished {
-    display: inline-flex;
-    font-size: 14px;
-
-    /* float: right; */
-}
-
-p {
-    padding: 0;
-    margin: 0;
-}
-
-.articleAuthors {
-    display: block;
-    font-size: 14px;
-}
-
-.articleSource {
-    display: inline;
-    font-size: 14px;
-}
-
-.articleSummary {
-    margin-top: 10px;
-    font-size: 18px;
-}
-
-.articleURL {
-    margin-top: 10px;
-    display: block;
-
-
-}
-
-/* .percent.negative {
-    color: red;
-}
-
-.percent.positive {
-    color: green;
-} */
-
-ul {
-    list-style: none;
 }
 
 .symbol {
@@ -352,6 +316,20 @@ ul {
     margin-bottom: 20px;
 }
 
+.stockMetrics {
+    border: 2px solid white;
+    width: fit-content;
+    margin: 0;
+    margin-top: 40px;
+    padding: 10px;
+    border-radius: var(--main-border-radius);
+}
+
+.metricsTitle {
+    text-align: center;
+    margin: 0;
+}
+
 .peRatio {
     /* border: 2px solid white;
     width: fit-content;
@@ -366,6 +344,75 @@ ul {
 .fiftyTwoWeekLow {}
 
 .earningsPerShare {}
+
+.companyNews {
+    display: none;
+    justify-content: center;
+    width: 60%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.companyNews.show {
+    display: flex;
+
+}
+
+.eachArticle {
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 16px;
+    margin: 10px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: block;
+
+}
+
+.articleTitle {
+    display: inline-flex;
+    font-size: 22px;
+}
+
+.articleTimePublished {
+    display: inline-flex;
+    align-items: end;
+    font-size: 14px;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.articleAuthors {
+    display: block;
+    font-size: 14px;
+}
+
+.articleSource {
+    display: inline;
+    font-size: 14px;
+}
+
+.articleSummary {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.articleURL {
+    margin-top: 10px;
+    display: block;
+
+
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+
 
 .companyNews {
     display: none;
