@@ -195,7 +195,22 @@ button:hover {
 .infoAndValues {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
+}
+
+@media (max-width: 765px) {
+    .infoAndValues {
+        justify-content: center;
+    }
+
+    .companyInfo.show {
+        width: 80%;
+        }
+
+        .stockMetrics {
+            margin: auto;
+        }
 }
 
 .valsAndButtons {

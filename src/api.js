@@ -1,4 +1,4 @@
-import { showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, showCompanyNews, hideCompanyNews, clearErrorMessage } from "./domChanges";
+import { showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, showCompanyNews, hideCompanyNews, clearErrorMessage, hideStockInfoAndValues, showStockInfoAndValues } from "./domChanges";
 import { percentChange, convertToPercent, fixAuthorsListed } from "./modifications"
 import { stockComponentFactory } from "./domCreation";
 import { convertDateToString, convertArticleDate } from "./date";
@@ -37,10 +37,12 @@ export async function getTimeSeriesIntraday(search) {
         const closeInt = stockData["Time Series (5min)"][lastRefreshedDate]["4. close"];
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
 
+        showStockInfoAndValues();
         const stockValues = showStockValues();
         stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
+        hideStockInfoAndValues();
         createErrorMessage();
     }
 
@@ -50,6 +52,7 @@ export async function getTimeSeriesIntraday(search) {
 export async function getTimeSeriesDaily(search) {
     clearErrorMessage();
     hideStockValues();
+    
     revertTimeButtons();
     showButtonClicked("daily-btn");
     const searchValue = search;
@@ -75,11 +78,13 @@ export async function getTimeSeriesDaily(search) {
         const closeInt = stockData["Time Series (Daily)"][lastRefreshedDate]["4. close"];
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
 
+
+showStockInfoAndValues();
         const stockValues = showStockValues();
         stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
-        hideStockValues();
         console.log(error);
+        hideStockInfoAndValues();
         createErrorMessage();
     }
 
@@ -89,6 +94,7 @@ export async function getTimeSeriesDaily(search) {
 export async function getTimeSeriesWeekly(search) {
     clearErrorMessage();
     hideStockValues();
+    
     revertTimeButtons();
     showButtonClicked("weekly-btn");
     const searchValue = search;
@@ -116,10 +122,13 @@ export async function getTimeSeriesWeekly(search) {
 
         const title = stockComponentFactory('h3', { id: "data-title", class: "dataTitle" }, "Weekly");
 
+        showStockInfoAndValues();
+
         const stockValues = showStockValues();
         stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
+        hideStockInfoAndValues();
         createErrorMessage();
     }
 
@@ -129,6 +138,7 @@ export async function getTimeSeriesWeekly(search) {
 export async function getTimeSeriesMonthly(search) {
     clearErrorMessage();
     hideStockValues();
+    
     revertTimeButtons();
     showButtonClicked("monthly-btn");
     const searchValue = search;
@@ -156,11 +166,13 @@ export async function getTimeSeriesMonthly(search) {
         const closeInt = stockData["Monthly Time Series"][lastRefreshedDate]["4. close"];
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
 
+        showStockInfoAndValues();
 
         const stockValues = showStockValues();
         stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
         console.log(error);
+        hideStockInfoAndValues();
         createErrorMessage();
     }
 
@@ -169,6 +181,7 @@ export async function getTimeSeriesMonthly(search) {
 export async function getCompanyOverview(search) {
     clearErrorMessage();
     hideCompanyInfo();
+    showStockInfoAndValues();
     const searchValue = search;
 
     try {
@@ -206,13 +219,15 @@ export async function getCompanyOverview(search) {
 
         const title = stockComponentFactory('h3', { id: "metrics-title", class: "metricsTitle" }, "Metrics");
 
+        showStockInfoAndValues();
+
         metricsDiv.append(title, peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
 
         const companyInfo = showCompanyInfo();
         companyInfo.append(symbol, name, assetType, exchange, country, sector, industry, description, metricsDiv);
     } catch (error) {
-        hideCompanyInfo();
         console.log(error);
+        hideStockInfoAndValues();
         createErrorMessage();
     }
 
@@ -317,6 +332,7 @@ export async function getSearchAutoComplete() {
 
     } catch (error) {
         console.log(error);
+        hideStockInfoAndValues();
         // createErrorMessage();
     }
 

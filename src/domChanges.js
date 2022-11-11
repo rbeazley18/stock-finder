@@ -68,3 +68,9 @@ export function hideStockInfoAndValues() {
     infoAndValues.style.display = "none";
     return infoAndValues;
 }
+
+export function showStockInfoAndValues() {
+    const infoAndValues = document.getElementById("info-and-values");
+    infoAndValues.style.display = "flex";
+    return infoAndValues;
+}
