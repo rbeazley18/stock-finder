@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <script defer src="main.js"></script>
 </head>
 
@@ -16,16 +18,22 @@
     <div id="container" class="container">
         <h1 class="header">Stock Finder</h1>
         <div class="formDiv">
-            <form method="post" autocomplete="off" action="javascript:;" class="searchBarForm">
-                <div id="search-div" class="searchDiv">
-                    <input type="text" id="search-bar" class="searchBar" placeholder="Search...">
-                    <button type="submit" id="submit-ticker" class="searchButton">Search</button>
-                </div>
-                <div id="search-dropdown" class="searchDropdown"></div>
-            </form>
+            <div>
+                <form method="post" autocomplete="off" action="javascript:;" class="searchBarForm">
+                    <div id="search-div" class="searchDiv">
+                        <input type="text" id="search-bar" class="searchBar" placeholder="Search...">
+                        <button type="submit" id="submit-ticker" class="searchButton"><span
+                                class="material-symbols-outlined">
+                                search</span>
+                        </button>
+                    </div>
+                    <div id="search-dropdown" class="searchDropdown">
+                    </div>
+                </form>
+            </div>
         </div>
-        
-        
+
+
         <div id="all-stock-data" class="allStockData">
             <h2 id="error-message" class="errorMessage"></h2>
             <div class="infoAndValues" id="info-and-values">

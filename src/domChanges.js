@@ -36,6 +36,12 @@ export function showAllStockData() {
     return allStockData;
 }
 
+export function hideAllStockData() {
+    const allStockData = document.getElementById("all-stock-data");
+    allStockData.style.display = "none";
+    return allStockData;
+}
+
 
 
 export function showCompanyNews() {
