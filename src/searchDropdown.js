@@ -18,7 +18,7 @@ export function mapAndAppendBestMatches(data) {
 
         matchPair.append(matchSymbol, matchName);
         const searchDropdown = document.getElementById("search-dropdown");
-        searchDropdown.style.display = "block";
+        searchDropdown.style.display = "flex";
         searchDropdown.append(matchPair);
 
 

@@ -1,4 +1,4 @@
-import { showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, showCompanyNews, hideCompanyNews, clearErrorMessage, hideStockInfoAndValues, showStockInfoAndValues } from "./domChanges";
+import { showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, showCompanyNews, hideCompanyNews, clearErrorMessage, hideStockInfoAndValues, showStockInfoAndValues, hideAllStockData } from "./domChanges";
 import { percentChange, convertToPercent, fixAuthorsListed } from "./modifications"
 import { stockComponentFactory } from "./domCreation";
 import { convertDateToString, convertArticleDate } from "./date";
@@ -332,6 +332,7 @@ export async function getSearchAutoComplete() {
 
     } catch (error) {
         console.log(error);
+        hideAllStockData();
         hideStockInfoAndValues();
         // createErrorMessage();
     }
