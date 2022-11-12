@@ -334,7 +334,6 @@ export async function getSearchAutoComplete() {
         console.log(error);
         hideAllStockData();
         hideStockInfoAndValues();
-        // createErrorMessage();
     }
 
 }
