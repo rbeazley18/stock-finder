@@ -30,9 +30,20 @@ body {
     padding: 10px;
 }
 
-h1 {
+.header {
     text-align: center;
+    margin-bottom: 5rem;
+}
+
+h1 {
+    margin-bottom: 0;
     font-size: 80px;
+}
+
+h2 {
+    margin: 0;
+    color: var(--primary-color);
+    
 }
 
 .errorMessage {
@@ -253,6 +264,10 @@ h1 {
     .stockMetrics {
         margin: auto;
     }
+
+    .companyNews.show {
+        width: 90%;
+    }
 }
 
 .valsAndButtons {
@@ -361,7 +376,6 @@ h1 {
 .stockMetrics {
     border: 2px solid white;
     width: fit-content;
-    margin: 0;
     margin-top: 40px;
     padding: 10px;
     border-radius: var(--main-border-radius);
@@ -390,13 +404,13 @@ h1 {
 .companyNews {
     display: none;
     justify-content: center;
-    width: 60%;
+    width: 70%;
     margin: auto;
     margin-top: 20px;
 }
 
 .companyNews.show {
-    display: flex;
+    display: block;
 
 }
 
@@ -451,16 +465,6 @@ p {
 ul {
     list-style: none;
     padding: 0;
-}
-
-
-
-.companyNews {
-    display: none;
-}
-
-.companyNews.show {
-    display: block;
 }
 
 .percent::before {

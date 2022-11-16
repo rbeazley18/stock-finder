@@ -187,7 +187,7 @@ export async function getCompanyOverview(search) {
     try {
         const response = await fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
         const stockData = await response.json();
-        // console.log(stockData)
+        console.log(stockData)
 
         const symbol = stockComponentFactory('li', { id: "symbol", class: "symbol" }, stockData["Symbol"]);
 
