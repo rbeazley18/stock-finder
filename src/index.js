@@ -1,6 +1,7 @@
+import './style.css';
+
 import { createTimeSeriesButtons } from './buttons';
 import { getTimeSeriesDaily, getCompanyOverview, getCompanyNews, getSearchAutoComplete } from './api';
-import './style.css';
 import { clearSearchText, showAllStockData } from './domChanges';
 import { removeSearchDropdown } from './searchDropdown';
 import { getSearchValue } from './getValues';

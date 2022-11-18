@@ -1,7 +1,9 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
+    target: 'web',
     context: __dirname,
     entry: './src/index.js',
     output: {
@@ -9,7 +11,7 @@ module.exports = {
         filename: 'main.js',
     },
     plugins: [
-        new Dotenv(),
+        new Dotenv(), new MiniCssExtractPlugin()
     ],
     module: {
         rules: [
@@ -20,7 +22,7 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
             // {
             //     test: /\.(woff|woff2|eot|ttf|otf)$/i,
