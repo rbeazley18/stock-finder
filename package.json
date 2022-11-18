@@ -21,7 +21,8 @@
     },
     "dependencies": {
         "dotenv": "^16.0.3",
-        "moment": "^2.29.4"
+        "moment": "^2.29.4",
+        "numeral": "^2.0.6"
     },
     "devDependencies": {
         "@babel/core": "^7.19.6",

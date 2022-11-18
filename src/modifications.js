@@ -1,3 +1,5 @@
+var numeral = require('numeral');
+
 export function percentChange(open, close) {
     const difference = close - open;
     if (difference < 0) {
@@ -22,4 +24,9 @@ export function convertToPercent(data) {
 export function fixAuthorsListed(authors) {
     const fixedAuthors = authors.join(", ");
     return fixedAuthors;
+}
+
+export function shortenLargeNums(num) {
+    const shortNum = numeral(num).format('0.00a');
+    return shortNum;
 }
