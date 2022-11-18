@@ -1,5 +1,5 @@
 import { showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, showCompanyNews, hideCompanyNews, clearErrorMessage, hideStockInfoAndValues, showStockInfoAndValues, hideAllStockData } from "./domChanges";
-import { percentChange, convertToPercent, fixAuthorsListed } from "./modifications"
+import { percentChange, convertToPercent, fixAuthorsListed, shortenLargeNums } from "./modifications"
 import { stockComponentFactory } from "./domCreation";
 import { convertDateToString, convertArticleDate } from "./date";
 import { revertTimeButtons, showButtonClicked } from "./buttons";
@@ -52,7 +52,7 @@ export async function getTimeSeriesIntraday(search) {
 export async function getTimeSeriesDaily(search) {
     clearErrorMessage();
     hideStockValues();
-    
+
     revertTimeButtons();
     showButtonClicked("daily-btn");
     const searchValue = search;
@@ -79,7 +79,7 @@ export async function getTimeSeriesDaily(search) {
         const percent = stockComponentFactory('li', { id: "percent-change", class: "percent" }, percentChange(openInt, closeInt));
 
 
-showStockInfoAndValues();
+        showStockInfoAndValues();
         const stockValues = showStockValues();
         stockValues.append(title, high, low, open, close, percent, lastRefreshed);
     } catch (error) {
@@ -94,7 +94,7 @@ showStockInfoAndValues();
 export async function getTimeSeriesWeekly(search) {
     clearErrorMessage();
     hideStockValues();
-    
+
     revertTimeButtons();
     showButtonClicked("weekly-btn");
     const searchValue = search;
@@ -138,7 +138,7 @@ export async function getTimeSeriesWeekly(search) {
 export async function getTimeSeriesMonthly(search) {
     clearErrorMessage();
     hideStockValues();
-    
+
     revertTimeButtons();
     showButtonClicked("monthly-btn");
     const searchValue = search;
@@ -186,45 +186,77 @@ export async function getCompanyOverview(search) {
 
     try {
         const response = await fetch(`https://www.alphavantage.co/query?function=OVERVIEW&symbol=${searchValue}&apikey=${process.env.API_KEY}`, { mode: 'cors' });
-        const stockData = await response.json();
-        console.log(stockData)
+        const overviewData = await response.json();
+        console.log(overviewData);
 
-        const symbol = stockComponentFactory('li', { id: "symbol", class: "symbol" }, stockData["Symbol"]);
+        function overviewMap(data) {
+            [data].map(value => {
+                let symbol = value.Symbol;
+                console.log(`Symbol: ${symbol}`);
+                let assetType = value.AssetType;
+                // console.log(authors)
+                let name = value.Name;
+                let description = value.Description;
+                let exchange = value.Exchange;
+                let country = value.Country;
+                let sector = value.Sector;
+                let industry = value.Industry;
+                let peRatio = value.PERatio;
+                let dividendYield = value.DividendYield;
+                let fiftyTwoWeekHigh = value["52WeekHigh"];
+                let fiftyTwoWeekLow = value["52WeekLow"];
+                let earningsPerShare = value.EPS;
+                let marketCap = value.MarketCapitalization;
+                let priceToBookRatio = value.PriceToBookRatio;
+                let priceToSales = value.PriceToSalesRatioTTM;
+                let pegRatio = value.PEGRatio;
+                let forwardPE = value.ForwardPE;
+                let beta = value.Beta;
+                let exDividendDate = value.ExDividendDate;
+                let eBITDA = value.EBITDA;
+                let quarterlyEarningsGrowthYOY = value.QuarterlyEarningsGrowthYOY;
+                let quarterlyRevenueGrowthYOY = value.QuarterlyRevenueGrowthYOY;
 
-        const assetType = stockComponentFactory('li', { id: "asset-type", class: "assetType" }, stockData["AssetType"]);
+                const companySymbol = stockComponentFactory('li', { id: "symbol", class: "symbol" }, symbol);
+                const companyAssetType = stockComponentFactory('li', { id: "asset-type", class: "assetType" }, `Asset Type: ${assetType}`);
+                const companyName = stockComponentFactory('li', { id: "name", class: "companyName" }, name);
+                const companyDescription = stockComponentFactory('li', { id: "description", class: "description" }, description);
+                const companyExchange = stockComponentFactory('li', { id: "exchange", class: "exchange" }, `Exchange: ${exchange}`);
+                const companyCountry = stockComponentFactory('li', { id: "country", class: "country" }, `Country: ${country}`);
+                const companySector = stockComponentFactory('li', { id: "sector", class: "sector" }, `Sector: ${sector}`);
+                const companyIndustry = stockComponentFactory('li', { id: "industry", class: "industry" }, `Industry: ${industry}`);
+                const companyPERatio = stockComponentFactory('li', { id: "peRatio", class: "peRatio" }, `PE: ${peRatio}`);
+                const companyDividendYield = stockComponentFactory('li', { id: "dividend-yield", class: "dividendYield" }, `Dividend Yield: ${convertToPercent(dividendYield)}`);
+                const companyFiftyTwoWeekHigh = stockComponentFactory('li', { id: "fifty-two-week-high", class: "fiftyTwoWeekHigh" }, `52W High: ${fiftyTwoWeekHigh}`);
+                const companyFiftyTwoWeekLow = stockComponentFactory('li', { id: "fifty-two-week-low", class: "fiftyTwoWeekLow" }, `52W Low: ${fiftyTwoWeekLow}`);
+                const companyEarningsPerShare = stockComponentFactory('li', { id: "earnings-per-share", class: "earningsPerShare" }, `EPS: ${earningsPerShare}`);
 
-        const name = stockComponentFactory('li', { id: "name", class: "companyName" }, stockData["Name"]);
+                const companyMarketCap = stockComponentFactory('li', { id: "market-cap", class: "marketCap" }, `Market Cap: ${shortenLargeNums(marketCap)}`);
+                const companyPriceToBookRatio = stockComponentFactory('li', { id: "price-to-book", class: "priceToBookRatio" }, `P/B: ${priceToBookRatio}`);
+                const companyPriceToSales = stockComponentFactory('li', { id: "price-to-sales", class: "priceToSales" }, `P/S: ${priceToSales}`);
+                const companyPegRatio = stockComponentFactory('li', { id: "PEG-ratio", class: "pegRatio" }, `PEG: ${pegRatio}`);
+                const companyForwardPE = stockComponentFactory('li', { id: "forward-PE", class: "forwardPE" }, `Forward PE: ${forwardPE}`);
+                const companyBeta = stockComponentFactory('li', { id: "beta", class: "beta" }, `Beta: ${beta}`);
+                const companyExDividendDate = stockComponentFactory('li', { id: "ex-dividend-date", class: "exDividendDate" }, `Ex-Dividend Date: ${convertDateToString(exDividendDate)}`);
+                const companyEBITDA = stockComponentFactory('li', { id: "EBITDA", class: "EBITDA" }, `EBITDA: ${shortenLargeNums(eBITDA)}`);
+                const companyQuarterlyEarningsGrowthYOY = stockComponentFactory('li', { id: "quarterly-earnings-growth-YOY", class: "quarterlyEarningsGrowthYOY" }, `Quarterly Earnings Growth YOY: ${convertToPercent(quarterlyEarningsGrowthYOY)}`);
+                const companyQuarterlyRevenueGrowthYOY = stockComponentFactory('li', { id: "quarterly-revenue-growth-YOY", class: "quarterlyRevenueGrowthYOY" }, `Quarterly Revenue Growth YOY: ${convertToPercent(quarterlyRevenueGrowthYOY)}`);
 
-        const description = stockComponentFactory('li', { id: "description", class: "description" }, stockData["Description"]);
+                const metricsDiv = stockComponentFactory('div', { id: "stock-metrics", class: "stockMetrics" });
 
-        const exchange = stockComponentFactory('li', { id: "exchange", class: "exchange" }, stockData["Exchange"]);
+                const title = stockComponentFactory('h3', { id: "metrics-title", class: "metricsTitle" }, "Metrics");
 
-        const country = stockComponentFactory('li', { id: "country", class: "country" }, stockData["Country"]);
+                metricsDiv.append(title, companyPERatio, companyEarningsPerShare, companyDividendYield, companyFiftyTwoWeekHigh, companyFiftyTwoWeekLow, companyMarketCap, companyPriceToBookRatio, companyPriceToSales, companyPegRatio, companyForwardPE, companyBeta, companyExDividendDate, companyEBITDA, companyQuarterlyEarningsGrowthYOY, companyQuarterlyRevenueGrowthYOY);
 
-        const sector = stockComponentFactory('li', { id: "sector", class: "sector" }, stockData["Sector"]);
+                const companyInfo = showCompanyInfo();
+                companyInfo.append(companySymbol, companyName, companyAssetType, companyExchange, companyCountry, companySector, companyIndustry, companyDescription, metricsDiv);
 
-        const industry = stockComponentFactory('li', { id: "industry", class: "industry" }, stockData["Industry"]);
-
-        const peRatio = stockComponentFactory('li', { id: "peRatio", class: "peRatio" }, stockData["PERatio"]);
-
-        const dividendYield = stockComponentFactory('li', { id: "dividend-yield", class: "dividendYield" }, convertToPercent(stockData["DividendYield"]));
-
-        const fiftyTwoWeekHigh = stockComponentFactory('li', { id: "fifty-two-week-high", class: "fiftyTwoWeekHigh" }, stockData["52WeekHigh"]);
-
-        const fiftyTwoWeekLow = stockComponentFactory('li', { id: "fifty-two-week-low", class: "fiftyTwoWeekLow" }, stockData["52WeekLow"]);
-
-        const earningsPerShare = stockComponentFactory('li', { id: "earnings-per-share", class: "earningsPerShare" }, stockData["EPS"]);
-
-        const metricsDiv = stockComponentFactory('div', { id: "stock-metrics", class: "stockMetrics" });
-
-        const title = stockComponentFactory('h3', { id: "metrics-title", class: "metricsTitle" }, "Metrics");
-
+            })
+        }
         showStockInfoAndValues();
+        overviewMap(overviewData);
 
-        metricsDiv.append(title, peRatio, earningsPerShare, dividendYield, fiftyTwoWeekHigh, fiftyTwoWeekLow);
 
-        const companyInfo = showCompanyInfo();
-        companyInfo.append(symbol, name, assetType, exchange, country, sector, industry, description, metricsDiv);
     } catch (error) {
         console.log(error);
         hideStockInfoAndValues();
