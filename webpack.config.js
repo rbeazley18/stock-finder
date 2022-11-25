@@ -8,6 +8,12 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js',
     },
+    resolve: {
+        fallback: {
+            "stream": false,
+            "os": false
+        }
+    },
     plugins: [
         new Dotenv(),
     ],

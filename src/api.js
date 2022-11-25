@@ -1,8 +1,9 @@
 import { showStockValues, hideStockValues, showCompanyInfo, hideCompanyInfo, showCompanyNews, hideCompanyNews, clearErrorMessage, hideStockInfoAndValues, showStockInfoAndValues, hideAllStockData } from "./domChanges";
+import { connectToClusterAndInsertDocument } from "./connection";
 import { percentChange, convertToPercent, fixAuthorsListed, shortenLargeNums } from "./modifications"
 import { stockComponentFactory } from "./domCreation";
 import { convertDateToString, convertArticleDate } from "./date";
-import { revertTimeButtons, showButtonClicked } from "./buttons";
+import { revertTimeButtons, showButtonClicked, createAddToWatchlistButton } from "./buttons";
 import { mapAndAppendBestMatches, removeSearchDropdown } from "./searchDropdown";
 import { getSearchValue } from "./getValues";
 import { createErrorMessage } from "./errorMsg";
@@ -246,10 +247,13 @@ export async function getCompanyOverview(search) {
 
                 const title = stockComponentFactory('h3', { id: "metrics-title", class: "metricsTitle" }, "Metrics");
 
+                const watchlistButton = createAddToWatchlistButton();
+                watchlistButton.addEventListener("click", connectToClusterAndInsertDocument({name: name, symbol: symbol}))
+
                 metricsDiv.append(title, companyPERatio, companyEarningsPerShare, companyDividendYield, companyFiftyTwoWeekHigh, companyFiftyTwoWeekLow, companyMarketCap, companyPriceToBookRatio, companyPriceToSales, companyPegRatio, companyForwardPE, companyBeta, companyExDividendDate, companyEBITDA, companyQuarterlyEarningsGrowthYOY, companyQuarterlyRevenueGrowthYOY);
 
                 const companyInfo = showCompanyInfo();
-                companyInfo.append(companySymbol, companyName, companyAssetType, companyExchange, companyCountry, companySector, companyIndustry, companyDescription, metricsDiv);
+                companyInfo.append(companySymbol, watchlistButton, companyName, companyAssetType, companyExchange, companyCountry, companySector, companyIndustry, companyDescription, metricsDiv);
 
             })
         }
