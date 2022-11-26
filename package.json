@@ -3,7 +3,8 @@
     "name": "stock-finder",
     "version": "1.0.0",
     "description": "",
-    "main": "script.js",
+    "main": "index.js",
+    "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "webpack --watch --mode=development",
@@ -22,6 +23,8 @@
     "dependencies": {
         "dotenv": "^16.0.3",
         "moment": "^2.29.4",
+        "mongodb": "^4.12.1",
+        "mongodb-client-encryption": "^2.3.0",
         "numeral": "^2.0.6"
     },
     "devDependencies": {

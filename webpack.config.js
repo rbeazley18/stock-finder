@@ -1,27 +1,26 @@
-const path = require('path');
-const Dotenv = require('dotenv-webpack');
+import { resolve } from 'path';
+import Dotenv from 'dotenv-webpack';
 
-module.exports = {
-    context: __dirname,
-    entry: './src/index.js',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'main.js',
-    },
-    plugins: [
-        new Dotenv(),
-    ],
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: 'babel-loader',
-            },
-            {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-        ]
-    }
+export const context = __dirname;
+export const entry = './src/index.js';
+export const target = 'node';
+export const output = {
+    path: resolve(__dirname, 'dist'),
+    filename: 'main.js',
+};
+export const plugins = [
+    new Dotenv(),
+];
+export const module = {
+    rules: [
+        {
+            test: /\.js$/,
+            // exclude: /node_modules/,
+            use: 'babel-loader',
+        },
+        {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader'],
+        },
+    ]
 };

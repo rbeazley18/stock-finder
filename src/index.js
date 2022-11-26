@@ -4,6 +4,7 @@ import './style.css';
 import { clearSearchText, showAllStockData } from './domChanges';
 import { removeSearchDropdown } from './searchDropdown';
 import { getSearchValue } from './getValues';
+import connectToClusterAndInsertDocument from './connection';
 
 
 function searchInitiated() {
@@ -30,6 +31,7 @@ export function firstSearch() {
 
 
 // FOR PRODUCTION
+connectToClusterAndInsertDocument();
 showSearchOptions();
 searchInitiated();
 

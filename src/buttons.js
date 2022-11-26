@@ -40,3 +40,8 @@ export function showButtonClicked(buttonID) {
     const timeBtn = document.getElementById(buttonID);
     timeBtn.classList.add("clickedButton");
 };
+
+export function createAddToWatchlistButton() {
+    const watchlistButton = stockComponentFactory('button', { id: "watchlist-btn", class: "watchlistButton" }, "Add to Watchlist");
+    return watchlistButton;
+}
