@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const uri = require("./atlas_uri.cjs");
+const uri = require("./atlas_uri.js");
 
 async function connectToClusterAndInsertDocument() {
     const client = new MongoClient(uri);
