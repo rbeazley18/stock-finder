@@ -9,6 +9,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js',
     },
+    resolve: {
+        conditionNames: ['require', 'node'],
+    },
     plugins: [
         new Dotenv(),
     ],
