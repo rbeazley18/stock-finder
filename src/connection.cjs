@@ -1,6 +1,5 @@
-import { MongoClient } from "./mongodb";
-// const { ClientEncryption } = require('mongodb-client-encryption');
-import uri from "./atlas_uri";
+const { MongoClient } = require("mongodb");
+const uri = require("./atlas_uri.cjs");
 
 async function connectToClusterAndInsertDocument() {
     const client = new MongoClient(uri);
@@ -13,6 +12,7 @@ async function connectToClusterAndInsertDocument() {
 
     }
     catch (err) {
+        console.log(err);
         console.error("Error connecting to database.");
     } finally {
         // Close the connection to the MongoDB cluster
@@ -29,7 +29,7 @@ async function addStockToWatchlist(client, newStock) {
     console.log(result);
 }
 
-export default connectToClusterAndInsertDocument;
+// export default connectToClusterAndInsertDocument;
 
 // const watchBtn = document.getElementById("watchlist-btn");
 // watchBtn.addEventListener("click", connectToClusterAndInsertDocument);
