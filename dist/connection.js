@@ -36,4 +36,4 @@ async function addStockToWatchlist(client, newStock) {
 // const watchBtn = document.getElementById("watchlist-btn");
 // watchBtn.addEventListener("click", connectToClusterAndInsertDocument);
 
-connectToClusterAndInsertDocument();
+// connectToClusterAndInsertDocument();
