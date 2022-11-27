@@ -3,6 +3,7 @@ import { percentChange, convertToPercent, fixAuthorsListed, shortenLargeNums } f
 import { stockComponentFactory } from "./domCreation";
 import { convertDateToString, convertArticleDate } from "./date";
 import { revertTimeButtons, showButtonClicked, createAddToWatchlistButton } from "./buttons";
+// import connectToClusterAndInsertDocument from "../dist/connection";
 import { mapAndAppendBestMatches, removeSearchDropdown } from "./searchDropdown";
 import { getSearchValue } from "./getValues";
 import { createErrorMessage } from "./errorMsg";
